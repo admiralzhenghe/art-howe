@@ -1,10 +1,14 @@
 import React from "react";
+// Apollo
 import { useQuery, gql } from "@apollo/client";
-import styled from "styled-components";
+// Component
+import Spinner from "./Spinner";
+// Router
 import { Link } from "react-router-dom";
+// Styled
+import styled from "styled-components";
 
 const StyledMosaic = styled.div`
-  /* display: flex; */
   background-color: yellow;
 `;
 
@@ -40,7 +44,8 @@ const handleMouseOver = (e) => {
 
 export default function Mosaic() {
   const { error, loading, data } = useQuery(GET_POSTS);
-  if (loading) return <div>Loading...</div>;
+
+  if (loading) return <Spinner />;
 
   console.log({ error, loading, data });
   return (
