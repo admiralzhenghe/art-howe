@@ -5,13 +5,20 @@ import Header from "./components/Header";
 import Mosaic from "./components/Mosaic";
 import Search from "./components/Search";
 
+// Router
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Search />
-      <Mosaic />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Search />
+        <Routes>
+          <Route path="" element={<Mosaic />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
