@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // Apollo
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 // Components
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
