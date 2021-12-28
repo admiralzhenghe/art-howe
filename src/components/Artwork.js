@@ -1,7 +1,8 @@
 import React from "react";
 // Apollo
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 // Components
+import ImageGallery from "./ImageGallery";
 import Spinner from "./Spinner";
 // Router
 import { Link } from "react-router-dom";
@@ -41,25 +42,6 @@ const StyledImageContainer = styled.div`
   }
 `;
 
-const StyledImage = styled.img`
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
-  max-width: 75%;
-
-  animation: animateImage 1s;
-  @keyframes animateImage {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    object-fit: contain;
-  }
-`;
-
 const StyledDetail = styled.div`
   padding: 1rem;
   flex: 1 1 25rem;
@@ -67,12 +49,13 @@ const StyledDetail = styled.div`
 
 export default function Artwork({ artwork }) {
   const { error, loading, data } = useQuery(GET_POST_DETAIL(artwork));
+
   if (loading) return <Spinner />;
 
   return (
     <StyledArtwork>
       <StyledImageContainer>
-        <StyledImage src={data.post.featuredImage.node.sourceUrl} />
+        <ImageGallery imageUrl={data.post.featuredImage.node.sourceUrl} />
       </StyledImageContainer>
       <StyledDetail>
         <div>{data.post.title}</div>
