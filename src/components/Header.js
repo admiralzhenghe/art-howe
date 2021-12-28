@@ -2,12 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
-  font-size: 40px;
-  font-weight: bolder;
-  text-align: center;
-  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+
+  span {
+    cursor: pointer;
+    font-size: 40px;
+    font-weight: bolder;
+  }
 `;
 
-export default function Header() {
-  return <StyledHeader>ART HOWE</StyledHeader>;
+export default function Header({ setViewing }) {
+  return (
+    <StyledHeader>
+      <span onClick={() => setViewing(false)}>ART HOWE</span>
+    </StyledHeader>
+  );
 }
