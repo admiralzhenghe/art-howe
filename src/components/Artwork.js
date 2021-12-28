@@ -5,6 +5,8 @@ import { useQuery, gql } from "@apollo/client";
 import Spinner from "./Spinner";
 // Router
 import { Link } from "react-router-dom";
+// Queries
+import { GET_POST_DETAIL } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
@@ -64,34 +66,7 @@ const StyledDetail = styled.div`
 `;
 
 export default function Artwork({ artwork }) {
-  const GET_POST_DETAIL = gql`
-  {
-  post(id: "${artwork}") {
-    title
-    tags {
-      edges {
-        node {
-          name
-          tagId
-        }
-      }
-    }
-    details {
-      artist
-      dateSeen
-      exhibition
-      link
-      venue
-    }
-    featuredImage {
-      node {
-        sourceUrl(size: _2048X2048)
-      }
-    }
-  }
-}`;
-
-  const { error, loading, data } = useQuery(GET_POST_DETAIL);
+  const { error, loading, data } = useQuery(GET_POST_DETAIL(artwork));
   if (loading) return <Spinner />;
 
   return (

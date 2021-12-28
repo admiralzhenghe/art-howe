@@ -4,8 +4,8 @@ import { useQuery, gql } from "@apollo/client";
 // Components
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
-// Router
-// import { Link } from "react-router-dom";
+// Queries
+import { GET_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
@@ -18,22 +18,6 @@ const StyledImage = styled.img`
   height: 50px;
   width: 50px;
   margin: 10px;
-`;
-
-const GET_THUMBNAILS = gql`
-  {
-    posts {
-      nodes {
-        featuredImage {
-          node {
-            sourceUrl(size: THUMBNAIL)
-          }
-        }
-        id
-        title
-      }
-    }
-  }
 `;
 
 export default function Mosaic({ viewing, setViewing }) {
