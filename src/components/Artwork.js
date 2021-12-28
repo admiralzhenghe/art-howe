@@ -72,13 +72,11 @@ export default function Artwork({ artwork }) {
         <h3>Date Seen</h3>
         <p>{data.post.details.dateSeen}</p>
         <h3>Tags</h3>
-
         {data.post.tags.edges.map((node) => (
           <Link key={node.node.tagId} style={{ padding: "0 5px" }} to="/">
             {node.node.name}
           </Link>
         ))}
-
         <h3>Link</h3>
         <a href={data.post.details.link}>{data.post.details.link}</a>
       </StyledDetail>
