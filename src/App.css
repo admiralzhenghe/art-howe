@@ -1,5 +1,8 @@
 .App {
-  height: 90vh;
-  width: 90vw;
-  background-color: #faebd7;
+  background-color: whitesmoke;
+  display: block;
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 3rem;
 }
