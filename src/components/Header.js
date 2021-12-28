@@ -5,11 +5,9 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50px;
-
   span {
     cursor: pointer;
-    font-size: 40px;
+    font-size: 38px;
     font-weight: bolder;
   }
 `;
