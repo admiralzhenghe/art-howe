@@ -7,7 +7,7 @@ import App from "./App";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://arthowe.website/graphql",
+  uri: process.env.REACT_APP_WORDPRESS_API_URL,
   cache: new InMemoryCache(),
 });
 
