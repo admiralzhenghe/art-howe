@@ -45,6 +45,10 @@ const StyledImageContainer = styled.div`
 const StyledDetail = styled.div`
   padding: 1rem;
   flex: 1 1 25rem;
+
+  @media screen and (max-width: 480px) {
+    font-size: 6px;
+  }
 `;
 
 export default function Artwork({ artwork }) {
@@ -58,26 +62,34 @@ export default function Artwork({ artwork }) {
         <ImageGallery imageUrl={data.post.featuredImage.node.sourceUrl} />
       </StyledImageContainer>
       <StyledDetail>
-        <div>{data.post.title}</div>
+        <b>{data.post.title}</b>
         <div>
           by{" "}
           {data.post.details.artist
             ? data.post.details.artist
             : "Unknown Artist"}
         </div>
-        <h3>Exhibition</h3>
-        <p>{data.post.details.exhibition}</p>
-        <h3>Venue</h3>
-        <p>{data.post.details.venue}</p>
-        <h3>Date Seen</h3>
-        <p>{data.post.details.dateSeen}</p>
-        <h3>Tags</h3>
+        <br />
+        <b>Exhibition</b>
+        <div>{data.post.details.exhibition}</div>
+        <br />
+        <b>Venue</b>
+        <div>{data.post.details.venue}</div>
+        <br />
+        <b>Date Seen</b>
+        <div>{data.post.details.dateSeen}</div>
+        <br />
+        <b>Tags</b>
+        <br />
         {data.post.tags.edges.map((node) => (
           <Link key={node.node.tagId} style={{ padding: "0 5px" }} to="/">
             {node.node.name}
           </Link>
         ))}
-        <h3>Link</h3>
+        <br />
+        <br />
+        <b>Link</b>
+        <br />
         <a href={data.post.details.link}>{data.post.details.link}</a>
       </StyledDetail>
     </StyledArtwork>

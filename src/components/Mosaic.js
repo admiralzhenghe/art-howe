@@ -9,7 +9,13 @@ import { GET_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
-const StyledMosaic = styled.div``;
+const StyledMosaic = styled.div`
+  @media screen and (max-width: 480px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+`;
 
 const StyledImage = styled.img`
   box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
