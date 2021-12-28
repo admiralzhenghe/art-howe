@@ -1,25 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 // Apollo
 import { useQuery, gql } from "@apollo/client";
-// Component
+// Components
+import Artwork from "./Artwork";
 import Spinner from "./Spinner";
 // Router
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // Styled
 import styled from "styled-components";
 
-const StyledMosaic = styled.div`
-  background-color: yellow;
-`;
+const StyledMosaic = styled.div``;
 
 const StyledImage = styled.img`
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
+  cursor: pointer;
   flex-wrap: wrap;
   height: 50px;
   width: 50px;
   margin: 10px;
 `;
 
-const GET_POSTS = gql`
+const GET_THUMBNAILS = gql`
   {
     posts {
       nodes {
@@ -35,33 +36,42 @@ const GET_POSTS = gql`
   }
 `;
 
-const handleMouseOver = (e) => {
-  let currentImage = e.target;
-  if (currentImage.localName === "img") {
-    console.log(currentImage);
-  }
-};
+export default function Mosaic({ viewing, setViewing }) {
+  const { error, loading, data } = useQuery(GET_THUMBNAILS);
+  const [artwork, setArtwork] = useState(null);
 
-export default function Mosaic() {
-  const { error, loading, data } = useQuery(GET_POSTS);
+  const handleMouseOver = (e) => {
+    let currentImage = e.target;
+    if (currentImage.localName === "img") {
+      // console.log(currentImage.id);
+    }
+  };
+
+  const handleMouseClick = (e) => {
+    let currentImage = e.target;
+    if (currentImage.localName === "img") {
+      setArtwork(currentImage.id);
+      setViewing(true);
+    }
+  };
 
   if (loading) return <Spinner />;
+  if (viewing) return <Artwork artwork={artwork} />;
 
-  console.log({ error, loading, data });
-  return (
-    <StyledMosaic onMouseOver={handleMouseOver}>
-      {data.posts.nodes.map((post) => {
-        return (
-          <>
+  if (!viewing) {
+    return (
+      <StyledMosaic onMouseOver={handleMouseOver} onClick={handleMouseClick}>
+        {data.posts.nodes.map((post) => {
+          return (
             <StyledImage
               key={post.id}
               id={post.id}
               src={post.featuredImage.node.sourceUrl}
               alt=""
             />
-          </>
-        );
-      })}
-    </StyledMosaic>
-  );
+          );
+        })}
+      </StyledMosaic>
+    );
+  }
 }
