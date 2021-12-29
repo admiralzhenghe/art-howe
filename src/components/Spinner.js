@@ -5,7 +5,9 @@ const StyledSpinner = styled.div`
   border: 4px solid transparent;
   border-radius: 50%;
   border-top-color: black;
-  border-bottom-color: black;
+  border-bottom-color: lightgrey;
+  border-right-color: lightgrey;
+  border-left-color: lightgrey;
   height: 50px;
   width: 50px;
   margin: 0 auto;
