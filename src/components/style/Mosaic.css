@@ -1,0 +1,17 @@
+.mosaic {
+  animation: animateImage 0.3s ease;
+}
+
+@keyframes animateImage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mosaic:hover {
+  transform: scale(3.5) translateX(1rem) translateY(1rem);
+  transition: transform 0.45s ease;
+}

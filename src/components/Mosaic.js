@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./style/Mosaic.css";
 // Apollo
 import { useQuery } from "@apollo/client";
 // Components
@@ -30,13 +31,6 @@ export default function Mosaic({ viewing, setViewing }) {
   const { error, loading, data } = useQuery(GET_THUMBNAILS);
   const [artwork, setArtwork] = useState(null);
 
-  const handleMouseOver = (e) => {
-    let currentImage = e.target;
-    if (currentImage.localName === "img") {
-      // console.log(currentImage.id);
-    }
-  };
-
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
@@ -50,10 +44,11 @@ export default function Mosaic({ viewing, setViewing }) {
 
   if (!viewing) {
     return (
-      <StyledMosaic onMouseOver={handleMouseOver} onClick={handleMouseClick}>
+      <StyledMosaic onClick={handleMouseClick}>
         {data.posts.nodes.map((post) => {
           return (
             <StyledImage
+              className="mosaic"
               key={post.id}
               id={post.id}
               src={post.featuredImage.node.sourceUrl}
