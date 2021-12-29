@@ -8,7 +8,7 @@ const StyledImageGallery = styled.img`
   box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
   max-width: 75%;
   display: none;
-  animation: animateImage 0.2s;
+  animation: animateImage 0.25s;
 
   @keyframes animateImage {
     from {
@@ -24,12 +24,11 @@ const StyledImageGallery = styled.img`
   }
 `;
 
-export default function ImageGallery({ imageUrl, setimageGalleryLoaded }) {
+export default function ImageGallery({ imageUrl }) {
   const [loading, setLoading] = useState(true);
 
   const handleOnLoad = (e) => {
     setLoading(false);
-    setimageGalleryLoaded(true);
     e.target.style.display = "block";
   };
 

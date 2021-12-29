@@ -1,5 +1,5 @@
 .mosaic {
-  animation: animateImage 0.3s ease;
+  animation: animateImage 0.25s;
 }
 
 @keyframes animateImage {
