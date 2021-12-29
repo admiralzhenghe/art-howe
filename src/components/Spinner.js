@@ -9,7 +9,7 @@ const StyledSpinner = styled.div`
   height: 50px;
   width: 50px;
   margin: 0 auto;
-  animation: loading 1s linear infinite;
+  animation: loading 0.75s linear infinite;
 
   @keyframes loading {
     to {
