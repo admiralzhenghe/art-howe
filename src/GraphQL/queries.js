@@ -2,11 +2,11 @@ import { gql } from "@apollo/client";
 
 export const GET_THUMBNAILS = gql`
   {
-    posts {
+    posts(first: 10000) {
       nodes {
         featuredImage {
           node {
-            sourceUrl(size: THUMBNAIL)
+            sourceUrl(size: MEDIUM)
           }
         }
         id
