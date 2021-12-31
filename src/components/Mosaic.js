@@ -10,21 +10,14 @@ import { GET_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
-const StyledMosaic = styled.div`
-  @media screen and (max-width: 480px) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
-`;
+const StyledMosaic = styled.div``;
 
 const StyledImage = styled.img`
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 3px 8px;
   cursor: pointer;
-  flex-wrap: wrap;
   height: 50px;
   width: 50px;
-  margin: 10px;
+  margin: 5px;
+  object-fit: cover;
 `;
 
 export default function Mosaic({ viewing, setViewing }) {
