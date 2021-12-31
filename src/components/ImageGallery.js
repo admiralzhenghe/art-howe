@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 const StyledImageGallery = styled.img`
   display: none;
-  filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.4));
   max-height: 100%;
   max-width: 100%;
   animation: animateImage 0.25s;

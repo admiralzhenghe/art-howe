@@ -32,7 +32,6 @@ const StyledArtworkContainer = styled.div`
 `;
 
 const StyledImageGalleryContainer = styled.div`
-  background-color: whitesmoke;
   display: flex;
   justify-content: center;
   align-items: center;
