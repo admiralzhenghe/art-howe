@@ -43,11 +43,9 @@ export default function ArtworkDetail({ data }) {
       <b>Tags</b>
 
       {data.post.tags.edges.map((node) => (
-        <>
-          <Link key={node.node.tagId} to="/">
-            {node.node.name}
-          </Link>
-        </>
+        <Link key={node.node.tagId} to="/">
+          {node.node.name}
+        </Link>
       ))}
       <br />
       <b>Hi-res Link</b>

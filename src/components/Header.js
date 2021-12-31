@@ -5,10 +5,18 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  grid-row: 1;
+
   span {
     cursor: pointer;
-    font-size: 38px;
+    font-size: 40px;
     font-weight: bolder;
+  }
+
+  @media screen and (max-width: 480px) {
+    span {
+      font-size: 30px;
+    }
   }
 `;
 

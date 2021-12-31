@@ -5,9 +5,10 @@ import Spinner from "./Spinner";
 import styled from "styled-components";
 
 const StyledImageGallery = styled.img`
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
-  max-width: 75%;
   display: none;
+  filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.4));
+  max-height: 100%;
+  max-width: 100%;
   animation: animateImage 0.25s;
 
   @keyframes animateImage {
@@ -17,10 +18,6 @@ const StyledImageGallery = styled.img`
     to {
       opacity: 1;
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    object-fit: contain;
   }
 `;
 

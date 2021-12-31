@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledSearch = styled.input`
-  height: 2.5rem;
+  border: 1px solid black;
+  grid-row: 2;
   margin: 1.25rem 0;
   outline: none;
   padding: 0.5rem 1rem;
