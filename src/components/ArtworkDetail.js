@@ -44,7 +44,7 @@ export default function ArtworkDetail({ data }) {
 
       {data.post.tags.edges.map((node) => (
         <Link key={node.node.tagId} to="/">
-          {node.node.name}
+          <li>{node.node.name}</li>
         </Link>
       ))}
       <br />
