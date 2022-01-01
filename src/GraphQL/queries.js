@@ -6,6 +6,22 @@ export const GET_THUMBNAILS = gql`
       nodes {
         featuredImage {
           node {
+            sourceUrl(size: THUMBNAIL)
+          }
+        }
+        id
+        title
+      }
+    }
+  }
+`;
+
+export const GET_MEDIUM_THUMBNAILS = gql`
+  {
+    posts(first: 10000) {
+      nodes {
+        featuredImage {
+          node {
             sourceUrl(size: MEDIUM)
           }
         }
