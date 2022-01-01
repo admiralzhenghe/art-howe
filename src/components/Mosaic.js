@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style/Mosaic.css";
 // Apollo
 import { useQuery } from "@apollo/client";
@@ -6,22 +6,29 @@ import { useQuery } from "@apollo/client";
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
 // Queries
-import { GET_THUMBNAILS } from "../GraphQL/queries";
+import { GET_THUMBNAILS, GET_MEDIUM_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
-const StyledMosaic = styled.div``;
-
-const StyledImage = styled.img`
+const StyledContainer = styled.div`
   cursor: pointer;
+  display: inline-block;
   height: 50px;
   width: 50px;
   margin: 5px;
-  object-fit: cover;
+  position: relative;
 `;
 
 export default function Mosaic({ viewing, setViewing }) {
-  const { error, loading, data } = useQuery(GET_THUMBNAILS);
+  const { loading: thumbnailLoading, data: thumbnailData } =
+    useQuery(GET_THUMBNAILS);
+
+  const { loading: mediumLoading, data: mediumData } = useQuery(
+    GET_MEDIUM_THUMBNAILS
+  );
+
+  const [loading, setLoading] = useState(true);
+  let [urls, setUrls] = useState([]);
   const [artwork, setArtwork] = useState(null);
 
   const handleMouseClick = (e) => {
@@ -32,24 +39,46 @@ export default function Mosaic({ viewing, setViewing }) {
     }
   };
 
+  useEffect(() => {
+    if (!thumbnailLoading && !mediumLoading) {
+      let t = thumbnailData.posts.nodes.map(
+        (post) => post.featuredImage.node.sourceUrl
+      );
+      let m = mediumData.posts.nodes.map(
+        (post) => post.featuredImage.node.sourceUrl
+      );
+      setUrls([t, m]);
+      setLoading(false);
+    }
+  }, [thumbnailLoading, mediumLoading]);
+
   if (loading) return <Spinner />;
   if (viewing) return <Artwork artwork={artwork} />;
 
   if (!viewing) {
     return (
-      <StyledMosaic onClick={handleMouseClick}>
-        {data.posts.nodes.map((post) => {
+      <div className="mosaic" onClick={handleMouseClick}>
+        {thumbnailData.posts.nodes.map((post, idx) => {
           return (
-            <StyledImage
-              className="mosaic"
-              key={post.id}
-              id={post.id}
-              src={post.featuredImage.node.sourceUrl}
-              alt=""
-            />
+            <StyledContainer key={post.id}>
+              <img
+                src={urls[0][idx]}
+                alt=""
+                className="pixelated"
+                id={post.id}
+                key={post.id + "pixelated"}
+              />
+              <img
+                src={urls[1][idx]}
+                alt=""
+                className="regular"
+                id={post.id}
+                key={post.id + "regular"}
+              />
+            </StyledContainer>
           );
         })}
-      </StyledMosaic>
+      </div>
     );
   }
 }

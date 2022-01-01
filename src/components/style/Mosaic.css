@@ -11,8 +11,34 @@
   }
 }
 
-.mosaic:hover {
-  transform: scale(3.5) translateX(1rem) translateY(1rem);
-  transition: transform 0.45s ease;
+.pixelated {
+  image-rendering: pixelated;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 10;
+}
+
+.pixelated:hover {
+  display: none;
+}
+
+.regular {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: hidden;
+  z-index: 1;
+}
+
+.regular:hover {
+  transform: scale(3.5) translateX(1.1rem) translateY(1.1rem);
+  transition: transform 0.45s;
   z-index: 100;
 }
