@@ -29,7 +29,6 @@ const StyledArtworkContainer = styled.div`
 
   @media screen and (max-width: 768px) {
     display: block;
-    margin: 0 auto;
     text-align: center;
   }
 `;

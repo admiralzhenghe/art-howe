@@ -24,7 +24,14 @@ code {
   justify-content: center;
 }
 
-/* Prevent overflow of the image gallery's images */
+/* Prevent overflow of the image gallery's image */
 .image-gallery-content {
   max-width: 85%;
+}
+
+/* Set ot max-width on mobile screens */
+@media screen and (max-width: 768px) {
+  .image-gallery-content {
+    max-width: 100%;
+  }
 }
