@@ -6,11 +6,11 @@ import { useQuery } from "@apollo/client";
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
 // GraphQL
-import { GET_THUMBNAILS, GET_MEDIUM_THUMBNAILS } from "../GraphQL/queries";
+import { GET_THUMBNAILS, GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
-const StyledContainer = styled.div`
+const StyledMosaicContainer = styled.div`
   cursor: pointer;
   display: inline-block;
   height: 50px;
@@ -19,21 +19,34 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-export default function Mosaic({ viewing, setViewing }) {
-  const { loading: thumbnailLoading, data: thumbnailData } =
-    useQuery(GET_THUMBNAILS);
-
-  const { loading: mediumLoading, data: mediumData } = useQuery(
-    GET_MEDIUM_THUMBNAILS
-  );
-
+export default function Mosaic({
+  searching,
+  setSearching,
+  searchTerm,
+  setSearchTerm,
+  viewing,
+  setViewing,
+}) {
   const [loading, setLoading] = useState(true);
-  let [urls, setUrls] = useState([]);
+  const [filteredThumbnailData, setFilteredThumbnailData] = useState([]);
+  const [urls, setUrls] = useState([]);
   const [postInfo, setPostInfo] = useState({
     id: null,
     postTitle: null,
   });
 
+  const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
+    !searching
+      ? GET_THUMBNAILS("THUMBNAIL")
+      : GET_SEARCH_THUMBNAILS("THUMBNAIL", searchTerm)
+  );
+  const { loading: mediumLoading, data: mediumData } = useQuery(
+    !searching
+      ? GET_THUMBNAILS("MEDIUM")
+      : GET_SEARCH_THUMBNAILS("MEDIUM", searchTerm)
+  );
+
+  // Single event listener for event delegation
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
@@ -47,46 +60,67 @@ export default function Mosaic({ viewing, setViewing }) {
 
   useEffect(() => {
     if (!thumbnailLoading && !mediumLoading) {
-      let t = thumbnailData.posts.nodes.map(
-        (post) => post.featuredImage.node.sourceUrl
-      );
-      let m = mediumData.posts.nodes.map(
-        (post) => post.featuredImage.node.sourceUrl
-      );
-      setUrls([t, m]);
+      // Skip search results that are not "Posts"
+      let tData = [];
+      let tUrl = thumbnailData.posts.nodes.reduce((arr, post) => {
+        if (post.featuredImage?.node.sourceUrl) {
+          tData.push(post);
+          arr.push(post.featuredImage?.node.sourceUrl);
+        }
+        return arr;
+      }, []);
+      let mUrl = mediumData.posts.nodes.reduce((arr, post) => {
+        if (post.featuredImage?.node.sourceUrl)
+          arr.push(post.featuredImage?.node.sourceUrl);
+        return arr;
+      }, []);
+      // Populate both the data and URL arrays with the filtered data
+      setFilteredThumbnailData(tData);
+      setUrls([tUrl, mUrl]);
       setLoading(false);
     }
   }, [thumbnailLoading, mediumLoading]);
 
-  if (loading) return <Spinner />;
-  if (viewing) return <Artwork postInfo={postInfo} />;
+  if (loading || !thumbnailData) return <Spinner />;
+  if (viewing)
+    return (
+      <Artwork
+        postInfo={postInfo}
+        searching={searching}
+        setSearching={setSearching}
+        setSearchTerm={setSearchTerm}
+        setViewing={setViewing}
+      />
+    );
 
   if (!viewing) {
     return (
-      <div className="mosaic" onClick={handleMouseClick}>
-        {thumbnailData.posts.nodes.map((post, idx) => {
-          return (
-            <StyledContainer key={post.id}>
-              <img
-                src={urls[0][idx]}
-                alt=""
-                className="pixelated"
-                id={post.id}
-                data-title={post.title}
-                key={post.id + "pixelated"}
-              />
-              <img
-                src={urls[1][idx]}
-                alt=""
-                className="regular"
-                id={post.id}
-                data-title={post.title}
-                key={post.id + "regular"}
-              />
-            </StyledContainer>
-          );
-        })}
-      </div>
+      <>
+        <div className="mosaic" onClick={handleMouseClick}>
+          {filteredThumbnailData.map((post, idx) => {
+            return (
+              <StyledMosaicContainer key={post.id}>
+                <img
+                  src={urls[0][idx]}
+                  alt={post.title}
+                  className="pixelated"
+                  id={post.id}
+                  data-title={post.title}
+                  key={post.id + "pixelated"}
+                />
+                <img
+                  src={urls[1][idx]}
+                  alt={post.title}
+                  className="regular"
+                  id={post.id}
+                  data-title={post.title}
+                  key={post.id + "regular"}
+                />
+              </StyledMosaicContainer>
+            );
+          })}
+        </div>
+      </>
     );
   }
 }
