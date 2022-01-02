@@ -20,10 +20,20 @@ const StyledHeader = styled.div`
   }
 `;
 
-export default function Header({ setViewing }) {
+export default function Header({ setSearching, setSearchTerm, setViewing }) {
   return (
     <StyledHeader>
-      <span onClick={() => setViewing(false)}>ART HOWE</span>
+      <span
+        onClick={() => {
+          // Clear the searching state
+          setSearching(false);
+          // Clear the search bar by passing in a new reference to an empty string
+          setSearchTerm("" + "");
+          setViewing(false);
+        }}
+      >
+        ART HOWE
+      </span>
     </StyledHeader>
   );
 }
