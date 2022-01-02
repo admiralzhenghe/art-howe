@@ -38,7 +38,7 @@
 }
 
 .regular:hover {
-  transform: scale(3.5) translateX(1.1rem) translateY(1.1rem);
+  transform: scale(3.4) translateX(1.1rem) translateY(1.1rem);
   transition: transform 0.45s;
   z-index: 100;
 }
