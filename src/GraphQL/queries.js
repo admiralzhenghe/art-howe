@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_THUMBNAILS = gql`
   {
-    posts(first: 10000) {
+    posts(first: 100000) {
       nodes {
         featuredImage {
           node {
@@ -18,7 +18,7 @@ export const GET_THUMBNAILS = gql`
 
 export const GET_MEDIUM_THUMBNAILS = gql`
   {
-    posts(first: 10000) {
+    posts(first: 100000) {
       nodes {
         featuredImage {
           node {
@@ -32,9 +32,9 @@ export const GET_MEDIUM_THUMBNAILS = gql`
   }
 `;
 
-export const GET_POST_DETAIL = (artwork) => gql`
+export const GET_POST_DETAIL = (id) => gql`
   {
-  post(id: "${artwork}") {
+  post(id: "${id}") {
     title
     tags {
       edges {
@@ -51,10 +51,22 @@ export const GET_POST_DETAIL = (artwork) => gql`
       link
       venue
     }
-    featuredImage {
-      node {
-        sourceUrl(size: _2048X2048)
+  }
+}`;
+
+export const GET_POST_IMAGES = (title) => gql`
+  {
+    mediaItems(
+      where: { orderby: { field: TITLE, order: ASC }, search: "${title}" }
+      first: 100000
+    ) {
+      edges {
+        node {
+          parentId
+          sourceUrl(size: _2048X2048)
+          title
+        }
       }
     }
   }
-}`;
+`;
