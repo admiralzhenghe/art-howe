@@ -1,6 +1,4 @@
 import React from "react";
-// Router
-import { Link } from "react-router-dom";
 // Styled
 import styled from "styled-components";
 
@@ -14,6 +12,13 @@ const StyledArtworkDetail = styled.div`
   overflow-x: hidden;
   word-break: break-word;
 
+  #artist,
+  #exhibition,
+  #venue,
+  #tag {
+    cursor: pointer;
+  }
+
   @media screen and (max-height: 900px) {
     justify-content: flex-start;
   }
@@ -23,19 +28,34 @@ const StyledArtworkDetail = styled.div`
   }
 `;
 
-export default function ArtworkDetail({ data }) {
+export default function ArtworkDetail({
+  data,
+  setSearching,
+  setSearchTerm,
+  setViewing,
+}) {
+  let categories = ["artist", "exhibition", "venue", "tag"];
+  const handleDetailClick = (e) => {
+    let detailText = e.target.innerText;
+    if (categories.includes(e.target.id)) {
+      setSearching(true);
+      setSearchTerm(detailText);
+      setViewing(false);
+    }
+  };
+
   return (
-    <StyledArtworkDetail>
+    <StyledArtworkDetail onClick={handleDetailClick}>
       <b>{data.post.title}</b>
-      <div>
+      <div id="artist">
         {data.post.details.artist ? data.post.details.artist : "Unknown Artist"}
       </div>
       <br />
       <b>Exhibition</b>
-      <div>{data.post.details.exhibition}</div>
+      <div id="exhibition">{data.post.details.exhibition}</div>
       <br />
       <b>Venue</b>
-      <div>{data.post.details.venue}</div>
+      <div id="venue">{data.post.details.venue}</div>
       <br />
       <b>Date Seen</b>
       <div>{data.post.details.dateSeen}</div>
@@ -43,9 +63,9 @@ export default function ArtworkDetail({ data }) {
       <b>Tags</b>
 
       {data.post.tags.edges.map((node) => (
-        <Link key={node.node.tagId} to="/">
-          <li>{node.node.name}</li>
-        </Link>
+        <li id="tag" key={node.node.tagId}>
+          {node.node.name}
+        </li>
       ))}
       <br />
       <b>Hi-res Link</b>
