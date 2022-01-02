@@ -1,28 +1,12 @@
 import { gql } from "@apollo/client";
 
-export const GET_THUMBNAILS = gql`
+export const GET_THUMBNAILS = (size) => gql`
   {
     posts(first: 100000) {
       nodes {
         featuredImage {
           node {
-            sourceUrl(size: THUMBNAIL)
-          }
-        }
-        id
-        title
-      }
-    }
-  }
-`;
-
-export const GET_MEDIUM_THUMBNAILS = gql`
-  {
-    posts(first: 100000) {
-      nodes {
-        featuredImage {
-          node {
-            sourceUrl(size: MEDIUM)
+            sourceUrl(size: ${size})
           }
         }
         id
@@ -66,6 +50,24 @@ export const GET_POST_IMAGES = (title) => gql`
           sourceUrl(size: _2048X2048)
           title
         }
+      }
+    }
+  }
+`;
+
+// Search queries
+
+export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
+  {
+    posts(first: 100000, where: {search: "${searchTerm}"}) {
+      nodes {
+        featuredImage {
+          node {
+            sourceUrl(size: ${size})
+          }
+        }
+        id
+        title
       }
     }
   }
