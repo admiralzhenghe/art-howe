@@ -13,6 +13,33 @@ const StyledSearch = styled.input`
   z-index: 100;
 `;
 
-export default function Search() {
-  return <StyledSearch placeholder="Search"></StyledSearch>;
+export default function Search({
+  setSearching,
+  searchTerm,
+  setSearchTerm,
+  setViewing,
+}) {
+  // Live search
+  const handleSearch = (e) => {
+    // Whenever a search term is inputted, turn off the viewing artwork state
+    setViewing(false);
+    let search = e.target.value;
+    // If there are words in the search bar
+    if (search.length) {
+      setSearching(true);
+      setSearchTerm(search);
+    } else {
+      // If the search bar is empty, return back to the main landing page
+      setSearching(false);
+      setSearchTerm("" + "");
+    }
+  };
+
+  return (
+    <StyledSearch
+      placeholder="Search"
+      onInput={handleSearch}
+      value={searchTerm}
+    ></StyledSearch>
+  );
 }
