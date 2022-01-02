@@ -14,7 +14,7 @@ import styled from "styled-components";
 
 const StyledArtworkContainer = styled.div`
   display: flex;
-  grid-row: 3;
+  grid-row: auto;
   overflow: hidden;
   animation: animateImage 0.25s;
 
@@ -40,7 +40,18 @@ const StyledImageGalleryContainer = styled.div`
   flex: 1 1 100%;
 `;
 
-export default function Artwork({ postInfo }) {
+const StyledBackButton = styled.div`
+  cursor: pointer;
+  margin-bottom: 1rem;
+`;
+
+export default function Artwork({
+  postInfo,
+  searching,
+  setSearching,
+  setSearchTerm,
+  setViewing,
+}) {
   const { id, postTitle } = postInfo;
   const [loading, setLoading] = useState(true);
   const [galleryLoading, setGalleryLoading] = useState(true);
@@ -81,17 +92,30 @@ export default function Artwork({ postInfo }) {
   if (loading) return <Spinner />;
 
   return (
-    <StyledArtworkContainer>
-      <StyledImageGalleryContainer>
-        {galleryLoading && <Spinner />}
-        <ImageGallery
-          items={images}
-          onImageLoad={handleImageLoad}
-          showPlayButton={false}
-          showThumbnails={false}
+    <>
+      {/* If viewing a searched artwork, show an option to return to the search results */}
+      {searching && (
+        <StyledBackButton onClick={() => setViewing(false)}>
+          BACK TO SEARCH RESULTS
+        </StyledBackButton>
+      )}
+      <StyledArtworkContainer>
+        <StyledImageGalleryContainer>
+          {galleryLoading && <Spinner />}
+          <ImageGallery
+            items={images}
+            onImageLoad={handleImageLoad}
+            showPlayButton={false}
+            showThumbnails={false}
+          />
+        </StyledImageGalleryContainer>
+        <ArtworkDetail
+          data={postData}
+          setSearching={setSearching}
+          setSearchTerm={setSearchTerm}
+          setViewing={setViewing}
         />
-      </StyledImageGalleryContainer>
-      <ArtworkDetail data={postData} />
-    </StyledArtworkContainer>
+      </StyledArtworkContainer>
+    </>
   );
 }
