@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 // Components
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
-// Queries
+// GraphQL
 import { GET_THUMBNAILS, GET_MEDIUM_THUMBNAILS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
@@ -29,12 +29,18 @@ export default function Mosaic({ viewing, setViewing }) {
 
   const [loading, setLoading] = useState(true);
   let [urls, setUrls] = useState([]);
-  const [artwork, setArtwork] = useState(null);
+  const [postInfo, setPostInfo] = useState({
+    id: null,
+    postTitle: null,
+  });
 
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
-      setArtwork(currentImage.id);
+      setPostInfo({
+        id: currentImage.id,
+        postTitle: currentImage.dataset.title,
+      });
       setViewing(true);
     }
   };
@@ -53,7 +59,7 @@ export default function Mosaic({ viewing, setViewing }) {
   }, [thumbnailLoading, mediumLoading]);
 
   if (loading) return <Spinner />;
-  if (viewing) return <Artwork artwork={artwork} />;
+  if (viewing) return <Artwork postInfo={postInfo} />;
 
   if (!viewing) {
     return (
@@ -66,6 +72,7 @@ export default function Mosaic({ viewing, setViewing }) {
                 alt=""
                 className="pixelated"
                 id={post.id}
+                data-title={post.title}
                 key={post.id + "pixelated"}
               />
               <img
@@ -73,6 +80,7 @@ export default function Mosaic({ viewing, setViewing }) {
                 alt=""
                 className="regular"
                 id={post.id}
+                data-title={post.title}
                 key={post.id + "regular"}
               />
             </StyledContainer>
