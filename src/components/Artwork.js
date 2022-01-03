@@ -8,7 +8,6 @@ import Spinner from "./Spinner";
 import { GET_POST_DETAIL, GET_POST_IMAGES } from "../GraphQL/queries";
 // ImageGallery
 import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
 // Styled
 import styled from "styled-components";
 
@@ -43,6 +42,10 @@ const StyledImageGalleryContainer = styled.div`
 const StyledBackButton = styled.div`
   cursor: pointer;
   margin-bottom: 1rem;
+
+  &:hover {
+    color: var(--orange);
+  }
 `;
 
 export default function Artwork({

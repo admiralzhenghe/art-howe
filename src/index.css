@@ -37,14 +37,27 @@ code {
   justify-content: center;
 }
 
-/* Prevent overflow of the image gallery's image */
+/* Prevent images from overflowing the image gallery */
 .image-gallery-content {
   max-width: 85%;
 }
 
-/* Set ot max-width on mobile screens */
+/* Reset the max-width on mobile screens */
 @media screen and (max-width: 768px) {
   .image-gallery-content {
     max-width: 100%;
   }
+}
+
+/* Change the image gallery's navigation icons color */
+.image-gallery-icon {
+  color: var(--blue);
+}
+
+.image-gallery-icon:hover {
+  color: var(--orange);
+}
+
+.image-gallery-icon:focus {
+  outline: none;
 }

@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 const StyledArtworkDetail = styled.div`
   display: flex;
-  flex: 20%;
+  flex: 25%;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.2rem;
   overflow-y: scroll;
   overflow-x: hidden;
   word-break: break-word;
@@ -17,6 +17,10 @@ const StyledArtworkDetail = styled.div`
   #venue,
   #tag {
     cursor: pointer;
+
+    &:hover {
+      color: var(--orange);
+    }
   }
 
   @media screen and (max-height: 900px) {
@@ -24,7 +28,7 @@ const StyledArtworkDetail = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 
@@ -37,6 +41,8 @@ export default function ArtworkDetail({
   let categories = ["artist", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
     let detailText = e.target.innerText;
+    // Check if the detailText is a tag by removing any lingering semicolons
+    detailText = detailText.replace(/[;]/g, "");
     if (categories.includes(e.target.id)) {
       setSearching(true);
       setSearchTerm(detailText);
@@ -44,12 +50,18 @@ export default function ArtworkDetail({
     }
   };
 
+  // Format the tags to include a semicolon after each tag excluding the last tag
+  let formattedTags = data.post.tags.edges.map((post, idx) => {
+    if (idx === data.post.tags.edges.length - 1) return post.node.name;
+    else {
+      return post.node.name + "; ";
+    }
+  });
+
   return (
     <StyledArtworkDetail onClick={handleDetailClick}>
-      <b>{data.post.title}</b>
-      <div id="artist">
-        {data.post.details.artist ? data.post.details.artist : "Unknown Artist"}
-      </div>
+      <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
+      <div>{data.post.title}</div>
       <br />
       <b>Exhibition</b>
       <div id="exhibition">{data.post.details.exhibition}</div>
@@ -58,15 +70,16 @@ export default function ArtworkDetail({
       <div id="venue">{data.post.details.venue}</div>
       <br />
       <b>Date Seen</b>
-      <div>{data.post.details.dateSeen}</div>
+      <div>{data.post.details.dateSeen?.replace(/[/]/g, ".")}</div>
       <br />
       <b>Tags</b>
-
-      {data.post.tags.edges.map((node) => (
-        <li id="tag" key={node.node.tagId}>
-          {node.node.name}
-        </li>
-      ))}
+      <div>
+        {formattedTags.map((tag, idx) => (
+          <span id="tag" key={idx}>
+            {tag}
+          </span>
+        ))}
+      </div>
       <br />
       <b>Hi-res Link</b>
       <a href={data.post.details.link}>{data.post.details.link}</a>

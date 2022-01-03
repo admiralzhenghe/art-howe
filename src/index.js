@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+// ImageGallery
+import "react-image-gallery/styles/css/image-gallery.css";
+import "./index.css";
 
 // Apollo
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
