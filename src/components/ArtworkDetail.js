@@ -1,4 +1,6 @@
 import React from "react";
+// Context
+import { useCustomContext } from "../context/Context";
 // Styled
 import styled from "styled-components";
 
@@ -32,21 +34,19 @@ const StyledArtworkDetail = styled.div`
   }
 `;
 
-export default function ArtworkDetail({
-  data,
-  setSearching,
-  setSearchTerm,
-  setViewing,
-}) {
+export default function ArtworkDetail({ data }) {
+  const { setSearchTerm, setViewingSearches, setViewingArtwork } =
+    useCustomContext();
+
   let categories = ["artist", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
     let detailText = e.target.innerText;
-    // Check if the detailText is a tag by removing any lingering semicolons
+    // If the detailText is a tag, remove any lingering semicolons
     detailText = detailText.replace(/[;]/g, "");
     if (categories.includes(e.target.id)) {
-      setSearching(true);
+      setViewingArtwork(false);
+      setViewingSearches(true);
       setSearchTerm(detailText);
-      setViewing(false);
     }
   };
 

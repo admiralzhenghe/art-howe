@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/client";
 // Components
 import ArtworkDetail from "./ArtworkDetail";
 import Spinner from "./Spinner";
+// Context
+import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_POST_DETAIL, GET_POST_IMAGES } from "../GraphQL/queries";
 // ImageGallery
@@ -48,17 +50,14 @@ const StyledBackButton = styled.div`
   }
 `;
 
-export default function Artwork({
-  postInfo,
-  searching,
-  setSearching,
-  setSearchTerm,
-  setViewing,
-}) {
+export default function Artwork({ postInfo }) {
   const { id, postTitle } = postInfo;
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [galleryLoading, setGalleryLoading] = useState(true);
-  const [images, setImages] = useState([]);
+
+  const { setViewingArtwork, viewingSearches } = useCustomContext();
+
   // Query API
   const { loading: postLoading, data: postData } = useQuery(
     GET_POST_DETAIL(id)
@@ -88,6 +87,7 @@ export default function Artwork({
     }
   }, [postLoading, images]);
 
+  // Show a loading spinner until the gallery has loaded
   const handleImageLoad = () => {
     setGalleryLoading(false);
   };
@@ -97,8 +97,8 @@ export default function Artwork({
   return (
     <>
       {/* If viewing a searched artwork, show an option to return to the search results */}
-      {searching && (
-        <StyledBackButton onClick={() => setViewing(false)}>
+      {viewingSearches && (
+        <StyledBackButton onClick={() => setViewingArtwork(false)}>
           BACK TO SEARCH RESULTS
         </StyledBackButton>
       )}
@@ -112,12 +112,7 @@ export default function Artwork({
             showThumbnails={false}
           />
         </StyledImageGalleryContainer>
-        <ArtworkDetail
-          data={postData}
-          setSearching={setSearching}
-          setSearchTerm={setSearchTerm}
-          setViewing={setViewing}
-        />
+        <ArtworkDetail data={postData} />
       </StyledArtworkContainer>
     </>
   );

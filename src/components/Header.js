@@ -1,4 +1,7 @@
 import React from "react";
+// Context
+import { useCustomContext } from "../context/Context";
+// Styled
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
@@ -20,16 +23,20 @@ const StyledHeader = styled.div`
   }
 `;
 
-export default function Header({ setSearching, setSearchTerm, setViewing }) {
+export default function Header() {
+  const { setSearchTerm, setViewingSearches, setViewingArtwork } =
+    useCustomContext();
+
   return (
     <StyledHeader>
       <span
         onClick={() => {
+          // Clear the viewing artwork state
+          setViewingArtwork(false);
           // Clear the searching state
-          setSearching(false);
-          // Clear the search bar by passing in a new reference to an empty string
-          setSearchTerm("" + "");
-          setViewing(false);
+          setViewingSearches(false);
+          // Clear the search bar
+          setSearchTerm("");
         }}
       >
         <span style={{ color: "var(--blue)" }}>A</span>

@@ -5,6 +5,8 @@ import { useQuery } from "@apollo/client";
 // Components
 import Artwork from "./Artwork";
 import Spinner from "./Spinner";
+// Context
+import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_THUMBNAILS, GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
 // Styled
@@ -19,14 +21,7 @@ const StyledMosaicContainer = styled.div`
   position: relative;
 `;
 
-export default function Mosaic({
-  searching,
-  setSearching,
-  searchTerm,
-  setSearchTerm,
-  viewing,
-  setViewing,
-}) {
+export default function Mosaic() {
   const [loading, setLoading] = useState(true);
   const [filteredThumbnailData, setFilteredThumbnailData] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -35,18 +30,22 @@ export default function Mosaic({
     postTitle: null,
   });
 
+  const { searchTerm, viewingArtwork, setViewingArtwork, viewingSearches } =
+    useCustomContext();
+
   const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
-    !searching
+    !viewingSearches
       ? GET_THUMBNAILS("THUMBNAIL")
       : GET_SEARCH_THUMBNAILS("THUMBNAIL", searchTerm)
   );
   const { loading: mediumLoading, data: mediumData } = useQuery(
-    !searching
+    !viewingSearches
       ? GET_THUMBNAILS("MEDIUM")
       : GET_SEARCH_THUMBNAILS("MEDIUM", searchTerm)
   );
 
   // Single event listener for event delegation
+  // If an individual artwork is clicked, then show the artwork's detail
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
@@ -54,10 +53,11 @@ export default function Mosaic({
         id: currentImage.id,
         postTitle: currentImage.dataset.title,
       });
-      setViewing(true);
+      setViewingArtwork(true);
     }
   };
 
+  // Create the data and URL needed to generate the mosaic of images
   useEffect(() => {
     if (!thumbnailLoading && !mediumLoading) {
       // Skip search results that are not "Posts"
@@ -82,45 +82,35 @@ export default function Mosaic({
   }, [thumbnailLoading, mediumLoading]);
 
   if (loading || !thumbnailData) return <Spinner />;
-  if (viewing)
-    return (
-      <Artwork
-        postInfo={postInfo}
-        searching={searching}
-        setSearching={setSearching}
-        setSearchTerm={setSearchTerm}
-        setViewing={setViewing}
-      />
-    );
 
-  if (!viewing) {
-    return (
-      <>
-        <div className="mosaic" onClick={handleMouseClick}>
-          {filteredThumbnailData.map((post, idx) => {
-            return (
-              <StyledMosaicContainer key={post.id}>
-                <img
-                  src={urls[0][idx]}
-                  alt={post.title}
-                  className="pixelated"
-                  id={post.id}
-                  data-title={post.title}
-                  key={post.id + "pixelated"}
-                />
-                <img
-                  src={urls[1][idx]}
-                  alt={post.title}
-                  className="regular"
-                  id={post.id}
-                  data-title={post.title}
-                  key={post.id + "regular"}
-                />
-              </StyledMosaicContainer>
-            );
-          })}
-        </div>
-      </>
-    );
-  }
+  if (viewingArtwork) return <Artwork postInfo={postInfo} />;
+
+  return (
+    <>
+      <div className="mosaic" onClick={handleMouseClick}>
+        {filteredThumbnailData.map((post, idx) => {
+          return (
+            <StyledMosaicContainer key={post.id}>
+              <img
+                src={urls[0][idx]}
+                alt={post.title}
+                className="pixelated"
+                id={post.id}
+                data-title={post.title}
+                key={post.id + "pixelated"}
+              />
+              <img
+                src={urls[1][idx]}
+                alt={post.title}
+                className="regular"
+                id={post.id}
+                data-title={post.title}
+                key={post.id + "regular"}
+              />
+            </StyledMosaicContainer>
+          );
+        })}
+      </div>
+    </>
+  );
 }
