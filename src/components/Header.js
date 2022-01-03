@@ -9,8 +9,8 @@ const StyledHeader = styled.div`
 
   span {
     cursor: pointer;
-    font-size: 40px;
-    font-weight: bolder;
+    font-size: 50px;
+    letter-spacing: 0.1rem;
   }
 
   @media screen and (max-width: 480px) {
@@ -32,7 +32,14 @@ export default function Header({ setSearching, setSearchTerm, setViewing }) {
           setViewing(false);
         }}
       >
-        ART HOWE
+        <span style={{ color: "var(--blue)" }}>A</span>
+        <span style={{ color: "var(--orange)" }}>R</span>
+        <span style={{ color: "var(--blue)" }}>T</span>
+        <span> </span>
+        <span style={{ color: "var(--orange)" }}>H</span>
+        <span style={{ color: "var(--blue)" }}>O</span>
+        <span style={{ color: "var(--orange)" }}>W</span>
+        <span style={{ color: "var(--blue)" }}>E</span>
       </span>
     </StyledHeader>
   );
