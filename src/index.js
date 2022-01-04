@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+// Context
+import { ContextProvider } from "./context/Context.js";
 // ImageGallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./index.css";
@@ -16,7 +18,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <ContextProvider>
+        <App />
+      </ContextProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

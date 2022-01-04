@@ -50,13 +50,14 @@ const StyledBackButton = styled.div`
   }
 `;
 
-export default function Artwork({ postInfo }) {
-  const { id, postTitle } = postInfo;
+export default function Artwork() {
+  const { currentArtwork, viewingSearches, setViewingArtwork } =
+    useCustomContext();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [galleryLoading, setGalleryLoading] = useState(true);
 
-  const { setViewingArtwork, viewingSearches } = useCustomContext();
+  const { id, postTitle } = currentArtwork;
 
   // Query API
   const { loading: postLoading, data: postData } = useQuery(

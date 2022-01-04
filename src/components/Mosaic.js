@@ -22,16 +22,17 @@ const StyledMosaicContainer = styled.div`
 `;
 
 export default function Mosaic() {
+  const {
+    searchTerm,
+    viewingArtwork,
+    viewingSearches,
+    setViewingArtwork,
+    setCurrentArtwork,
+  } = useCustomContext();
+
   const [loading, setLoading] = useState(true);
   const [filteredThumbnailData, setFilteredThumbnailData] = useState([]);
   const [urls, setUrls] = useState([]);
-  const [postInfo, setPostInfo] = useState({
-    id: null,
-    postTitle: null,
-  });
-
-  const { searchTerm, viewingArtwork, setViewingArtwork, viewingSearches } =
-    useCustomContext();
 
   const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
     !viewingSearches
@@ -45,11 +46,11 @@ export default function Mosaic() {
   );
 
   // Single event listener for event delegation
-  // If an individual artwork is clicked, then show the artwork's detail
+  // If a specific artwork is clicked, then show that artwork's detail
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
-      setPostInfo({
+      setCurrentArtwork({
         id: currentImage.id,
         postTitle: currentImage.dataset.title,
       });
@@ -83,7 +84,7 @@ export default function Mosaic() {
 
   if (loading || !thumbnailData) return <Spinner />;
 
-  if (viewingArtwork) return <Artwork postInfo={postInfo} />;
+  if (viewingArtwork) return <Artwork />;
 
   return (
     <>
