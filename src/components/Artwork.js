@@ -53,7 +53,6 @@ export default function Artwork() {
     useCustomContext();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [galleryLoading, setGalleryLoading] = useState(true);
 
   const { id, postTitle } = currentArtwork;
 
@@ -86,11 +85,6 @@ export default function Artwork() {
     }
   }, [postLoading, images]);
 
-  // Show a loading spinner until the gallery has loaded
-  const handleImageLoad = () => {
-    setGalleryLoading(false);
-  };
-
   if (loading) return <Spinner />;
 
   return (
@@ -103,10 +97,8 @@ export default function Artwork() {
       )}
       <StyledArtworkContainer>
         <StyledImageGalleryContainer>
-          {galleryLoading && <Spinner />}
           <ImageGallery
             items={images}
-            onImageLoad={handleImageLoad}
             showPlayButton={false}
             showThumbnails={false}
           />
