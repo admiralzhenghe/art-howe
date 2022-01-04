@@ -14,6 +14,11 @@ const StyledSearch = styled.input`
   top: 1rem;
   width: 100%;
   z-index: 100;
+
+  &::placeholder {
+    font-family: "EB Garamond", serif;
+    color: black;
+  }
 `;
 
 export default function Search() {
