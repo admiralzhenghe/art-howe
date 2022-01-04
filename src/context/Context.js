@@ -9,6 +9,10 @@ export function useCustomContext() {
 export function ContextProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewingArtwork, setViewingArtwork] = useState(false);
+  const [currentArtwork, setCurrentArtwork] = useState({
+    id: null,
+    postTitle: null,
+  });
   const [viewingCategories, setViewingCategories] = useState(false);
   const [viewingSearches, setViewingSearches] = useState(false);
 
@@ -17,6 +21,8 @@ export function ContextProvider({ children }) {
     setSearchTerm,
     viewingArtwork,
     setViewingArtwork,
+    currentArtwork,
+    setCurrentArtwork,
     viewingCategories,
     setViewingCategories,
     viewingSearches,
