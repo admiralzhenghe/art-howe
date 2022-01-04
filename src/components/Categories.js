@@ -12,6 +12,16 @@ import styled from "styled-components";
 
 const StyledContainer = styled.div`
   font-size: 1.25rem;
+  animation: animateCategories 0.5s;
+
+  @keyframes animateCategories {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   .tag {
     cursor: pointer;
