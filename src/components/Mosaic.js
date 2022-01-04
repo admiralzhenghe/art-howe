@@ -31,8 +31,7 @@ export default function Mosaic() {
   } = useCustomContext();
 
   const [loading, setLoading] = useState(true);
-  const [filteredThumbnailData, setFilteredThumbnailData] = useState([]);
-  const [urls, setUrls] = useState([]);
+  const [data, setData] = useState([]);
 
   const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
     !viewingSearches
@@ -46,7 +45,7 @@ export default function Mosaic() {
   );
 
   // Single event listener for event delegation
-  // If a specific artwork is clicked, then show that artwork's detail
+  // If a specific artwork is clicked, then show the artwork's detail
   const handleMouseClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
@@ -58,7 +57,7 @@ export default function Mosaic() {
     }
   };
 
-  // Create the data and URL needed to generate the mosaic of images
+  // Create the data and URL needed to generate the images mosaic
   useEffect(() => {
     if (!thumbnailLoading && !mediumLoading) {
       // Skip search results that are not "Posts"
@@ -70,14 +69,14 @@ export default function Mosaic() {
         }
         return arr;
       }, []);
+
       let mUrl = mediumData.posts.nodes.reduce((arr, post) => {
         if (post.featuredImage?.node.sourceUrl)
           arr.push(post.featuredImage?.node.sourceUrl);
         return arr;
       }, []);
       // Populate both the data and URL arrays with the filtered data
-      setFilteredThumbnailData(tData);
-      setUrls([tUrl, mUrl]);
+      setData([tData, tUrl, mUrl]);
       setLoading(false);
     }
   }, [thumbnailLoading, mediumLoading]);
@@ -89,24 +88,22 @@ export default function Mosaic() {
   return (
     <>
       <div className="mosaic" onClick={handleMouseClick}>
-        {filteredThumbnailData.map((post, idx) => {
+        {data[0].map((post, idx) => {
           return (
             <StyledMosaicContainer key={post.id}>
               <img
-                src={urls[0][idx]}
+                src={data[1][idx]}
                 alt={post.title}
                 className="pixelated"
                 id={post.id}
                 data-title={post.title}
-                key={post.id + "pixelated"}
               />
               <img
-                src={urls[1][idx]}
+                src={data[2][idx]}
                 alt={post.title}
                 className="regular"
                 id={post.id}
                 data-title={post.title}
-                key={post.id + "regular"}
               />
             </StyledMosaicContainer>
           );
