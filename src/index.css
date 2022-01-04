@@ -1,6 +1,7 @@
 :root {
   --blue: #002d72;
   --orange: #f26e21;
+  --hoverTransition: 0.15s;
 }
 
 * {
