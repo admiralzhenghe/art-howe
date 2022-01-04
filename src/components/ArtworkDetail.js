@@ -41,10 +41,10 @@ export default function ArtworkDetail({ data }) {
 
   let categories = ["artist", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
-    let detailText = e.target.innerText;
-    // If the detailText is a tag, remove any lingering semicolons
-    detailText = detailText.replace(/[;]/g, "");
     if (categories.includes(e.target.id)) {
+      let detailText = e.target.innerText;
+      // If the detailText is a tag, remove any lingering semicolons
+      detailText = detailText.replace(/[;]/g, "");
       setViewingArtwork(false);
       setViewingSearches(true);
       setSearchTerm(detailText);
