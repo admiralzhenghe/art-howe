@@ -14,6 +14,10 @@ const StyledArtworkDetail = styled.div`
   overflow-x: hidden;
   word-break: break-word;
 
+  #title {
+    font-style: italic;
+  }
+
   #artist,
   #exhibition,
   #venue,
@@ -62,7 +66,7 @@ export default function ArtworkDetail({ data }) {
   return (
     <StyledArtworkDetail onClick={handleDetailClick}>
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
-      <div>{data.post.title}</div>
+      <div id="title">{data.post.title}</div>
       <br />
       <b>Exhibition</b>
       <div id="exhibition">{data.post.details.exhibition}</div>
