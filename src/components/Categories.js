@@ -46,15 +46,13 @@ export default function Categories() {
   return (
     <StyledContainer onClick={handleTagClick}>
       {data.tags.nodes.map((tag, idx) => (
-        <>
-          {idx === 0 && <b key={tag.name[0]}>{tag.name[0]}</b>}
+        <div key={idx}>
+          {idx === 0 && <b>{tag.name[0]}</b>}
           {idx > 0 && tag.name[0] !== data.tags.nodes[idx - 1].name[0] && (
-            <b key={tag.name[0]}>{tag.name[0]}</b>
+            <b>{tag.name[0]}</b>
           )}
-          <div className="tag" key={idx}>
-            {tag.name}
-          </div>
-        </>
+          <div className="tag">{tag.name}</div>
+        </div>
       ))}
     </StyledContainer>
   );
