@@ -17,13 +17,21 @@ const StyledSearch = styled.input`
 `;
 
 export default function Search() {
-  const { searchTerm, setSearchTerm, setViewingArtwork, setViewingSearches } =
-    useCustomContext();
+  const {
+    searchTerm,
+    setSearchTerm,
+    setViewingArtwork,
+    setViewingCategories,
+    setViewingSearches,
+  } = useCustomContext();
 
   // Live search
   const handleSearch = (e) => {
     // Whenever a search term is inputted, turn off the viewing artwork state
     setViewingArtwork(false);
+    // And turn of the viewing categories state
+    setViewingCategories(false);
+
     let search = e.target.value;
     // If there are words in the search bar
     if (search.length) {

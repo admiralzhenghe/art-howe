@@ -20,7 +20,7 @@ const StyledHeader = styled.div`
 
     &:hover {
       color: var(--orange);
-      transition: 0.2s;
+      transition: var(--hoverTransition);
     }
   }
 
