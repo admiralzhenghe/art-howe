@@ -6,7 +6,9 @@ import styled from "styled-components";
 
 const StyledSearch = styled.input`
   border: 1px solid black;
+  font-size: 1.5rem;
   grid-row: 2;
+  height: 3rem;
   margin: 1.25rem 0;
   outline: none;
   padding: 0.5rem 1rem;
@@ -18,6 +20,11 @@ const StyledSearch = styled.input`
   &::placeholder {
     font-family: "EB Garamond", serif;
     color: black;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 2.5rem;
+    font-size: 1rem;
   }
 `;
 
