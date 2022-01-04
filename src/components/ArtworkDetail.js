@@ -19,6 +19,7 @@ const StyledArtworkDetail = styled.div`
   }
 
   #artist,
+  #year,
   #exhibition,
   #venue,
   #tag {
@@ -35,7 +36,7 @@ const StyledArtworkDetail = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 14px;
+    margin-top: 1rem;
   }
 `;
 
@@ -43,7 +44,7 @@ export default function ArtworkDetail({ data }) {
   const { setSearchTerm, setViewingSearches, setViewingArtwork } =
     useCustomContext();
 
-  let categories = ["artist", "exhibition", "venue", "tag"];
+  let categories = ["artist", "year", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
     if (categories.includes(e.target.id)) {
       let detailText = e.target.innerText;
@@ -67,6 +68,7 @@ export default function ArtworkDetail({ data }) {
     <StyledArtworkDetail onClick={handleDetailClick}>
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
       <div id="title">{data.post.title}</div>
+      <div id="year">{data.post.details.year}</div>
       <br />
       <b>Exhibition</b>
       <div id="exhibition">{data.post.details.exhibition}</div>

@@ -34,6 +34,7 @@ export const GET_POST_DETAIL = (id) => gql`
       exhibition
       link
       venue
+      year
     }
   }
 }`;
