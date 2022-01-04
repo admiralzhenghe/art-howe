@@ -8,8 +8,11 @@ const StyledHeader = styled.div`
   grid-row: 1;
 
   .logo {
-    text-align: center;
+    cursor: pointer;
+    font-size: 3.5rem;
+    letter-spacing: 0.1rem;
     position: relative;
+    text-align: center;
   }
 
   .categories-container {
@@ -31,17 +34,15 @@ const StyledHeader = styled.div`
     height: 100%;
   }
 
-  .text {
-    font-size: 30px;
-  }
-
-  span {
-    cursor: pointer;
-    font-size: 50px;
-    letter-spacing: 0.1rem;
+  .categories-text {
+    font-size: 1.5rem;
   }
 
   @media screen and (max-width: 768px) {
+    .logo {
+      font-size: 3rem;
+    }
+
     .categories-container {
       display: block;
       position: relative;
@@ -52,18 +53,18 @@ const StyledHeader = styled.div`
       align-items: center;
     }
 
-    .text {
-      font-size: 25px;
+    .categories-text {
+      font-size: 1.25rem;
     }
   }
 
   @media screen and (max-width: 480px) {
-    span {
-      font-size: 30px;
+    .logo {
+      font-size: 2.5rem;
     }
 
-    .text {
-      font-size: 20px;
+    .categories-text {
+      font-size: 1rem;
     }
   }
 `;
@@ -109,7 +110,7 @@ export default function Header() {
         <span style={{ color: "var(--blue)" }}>E</span>
         <div className="categories-container">
           <div className="categories" onClick={handleCategoriesToggle}>
-            <div className="text">Categories</div>
+            <div className="categories-text">Categories</div>
           </div>
         </div>
       </div>

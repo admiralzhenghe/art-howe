@@ -8,10 +8,10 @@ const StyledSearch = styled.input`
   border: 1px solid black;
   font-size: 1.5rem;
   grid-row: 2;
-  height: 3rem;
-  margin: 1.25rem 0;
+  height: 50px;
+  margin: 1rem 0;
   outline: none;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   position: sticky;
   top: 1rem;
   width: 100%;
@@ -24,6 +24,10 @@ const StyledSearch = styled.input`
 
   @media screen and (max-width: 768px) {
     height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  @media screen and (max-width: 480px) {
     font-size: 1rem;
   }
 `;
