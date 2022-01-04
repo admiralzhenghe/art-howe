@@ -72,3 +72,15 @@ export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
     }
   }
 `;
+
+// Tag queries
+
+export const GET_ALL_TAGS = gql`
+  {
+    tags(first: 9999999) {
+      nodes {
+        name
+      }
+    }
+  }
+`;
