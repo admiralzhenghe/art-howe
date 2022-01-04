@@ -40,19 +40,23 @@ code {
 
 /* Prevent images from overflowing the image gallery */
 .image-gallery-content {
-  max-width: 85%;
+  max-width: 100%;
 }
 
-/* Reset the max-width on mobile screens */
-@media screen and (max-width: 768px) {
-  .image-gallery-content {
-    max-width: 100%;
-  }
+.image-gallery-content img {
+  max-width: 75%;
 }
 
 /* Change the image gallery's navigation icons color */
 .image-gallery-icon {
-  color: var(--blue);
+  color: black;
+  filter: drop-shadow(0 0 0 white);
+}
+
+.image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+  height: 90px;
+  width: 45px;
 }
 
 .image-gallery-icon:hover {
@@ -61,4 +65,11 @@ code {
 
 .image-gallery-icon:focus {
   outline: none;
+}
+
+/* Reset the max-width on mobile screens */
+@media screen and (max-width: 768px) {
+  .image-gallery-content {
+    max-width: 100%;
+  }
 }
