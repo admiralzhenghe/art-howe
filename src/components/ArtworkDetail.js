@@ -67,6 +67,7 @@ export default function ArtworkDetail({ data }) {
   return (
     <StyledArtworkDetail onClick={handleDetailClick}>
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
+      <br />
       <div id="title">{data.post.title}</div>
       <div id="year">{data.post.details.year}</div>
       <br />
