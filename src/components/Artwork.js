@@ -15,11 +15,9 @@ import styled from "styled-components";
 
 const StyledArtworkContainer = styled.div`
   display: flex;
-  grid-row: auto;
-  overflow: hidden;
-  animation: animateImage 0.25s;
+  animation: animateArtwork var(--pageLoadAnimation);
 
-  @keyframes animateImage {
+  @keyframes animateArtwork {
     from {
       opacity: 0;
     }

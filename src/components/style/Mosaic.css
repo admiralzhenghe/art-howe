@@ -1,5 +1,14 @@
 .mosaic {
-  animation: animateImage 0.25s;
+  animation: animateMosaic var(--pageLoadAnimation);
+}
+
+@keyframes animateMosaic {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .pixelated {
@@ -37,14 +46,5 @@
 @media screen and (max-width: 768px) {
   .mosaic {
     text-align: center;
-  }
-}
-
-@keyframes animateImage {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 const StyledContainer = styled.div`
   font-size: 1.25rem;
-  animation: animateCategories 0.5s;
+  animation: animateCategories var(--pageLoadAnimation);
 
   @keyframes animateCategories {
     from {
