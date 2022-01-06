@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./style/Mosaic.css";
 // Apollo
 import { useQuery } from "@apollo/client";
@@ -32,6 +32,8 @@ export default function Mosaic() {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  // Toggle mosaic shuffle
+  const shuffleMosaic = useRef(true);
 
   const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
     !viewingSearches
@@ -60,23 +62,34 @@ export default function Mosaic() {
   // Create the data and URL needed to generate the images mosaic
   useEffect(() => {
     if (!thumbnailLoading && !mediumLoading) {
+      // Place post data, thumbnail URL and medium image URL into a single object
       // Skip search results that are not "Posts"
-      let tData = [];
-      let tUrl = thumbnailData.posts.nodes.reduce((arr, post) => {
+      let data = thumbnailData.posts.nodes.reduce((arr, post, idx) => {
         if (post.featuredImage?.node.sourceUrl) {
-          tData.push(post);
-          arr.push(post.featuredImage?.node.sourceUrl);
+          let object = {
+            post,
+            thumbnail: post.featuredImage.node.sourceUrl,
+            medium: mediumData.posts.nodes[idx].featuredImage.node.sourceUrl,
+          };
+          arr.push(object);
         }
         return arr;
       }, []);
 
-      let mUrl = mediumData.posts.nodes.reduce((arr, post) => {
-        if (post.featuredImage?.node.sourceUrl)
-          arr.push(post.featuredImage?.node.sourceUrl);
-        return arr;
-      }, []);
-      // Populate both the data and URL arrays with the filtered data
-      setData([tData, tUrl, mUrl]);
+      if (shuffleMosaic) {
+        const getRandomInt = (max) => {
+          return Math.floor(Math.random() * max);
+        };
+        const swap = (array, idx1, idx2) => {
+          [array[idx1], array[idx2]] = [array[idx2], array[idx1]];
+        };
+        // Fisher-Yates algorithm
+        for (let i = data.length - 1; i >= 0; i--) {
+          let randomIdx = getRandomInt(i);
+          swap(data, i, randomIdx);
+        }
+      }
+      setData(data);
       setLoading(false);
     }
   }, [thumbnailLoading, mediumLoading]);
@@ -88,22 +101,22 @@ export default function Mosaic() {
   return (
     <>
       <div className="mosaic" onClick={handleMouseClick}>
-        {data[0].map((post, idx) => {
+        {data.map((dataSet) => {
           return (
-            <StyledMosaicContainer key={post.id}>
+            <StyledMosaicContainer key={dataSet.post.id}>
               <img
-                src={data[1][idx]}
-                alt={post.title}
+                src={dataSet.thumbnail}
+                alt={dataSet.post.title}
                 className="pixelated"
-                id={post.id}
-                data-title={post.title}
+                id={dataSet.post.id}
+                data-title={dataSet.post.title}
               />
               <img
-                src={data[2][idx]}
-                alt={post.title}
+                src={dataSet.medium}
+                alt={dataSet.post.title}
                 className="regular"
-                id={post.id}
-                data-title={post.title}
+                id={dataSet.post.id}
+                data-title={dataSet.post.title}
               />
             </StyledMosaicContainer>
           );
