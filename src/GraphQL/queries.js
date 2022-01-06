@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_THUMBNAILS = (size) => gql`
   {
-    posts(first: 100000) {
+    posts(first: 999999) {
       nodes {
         featuredImage {
           node {
@@ -43,7 +43,7 @@ export const GET_POST_IMAGES = (title) => gql`
   {
     mediaItems(
       where: { orderby: { field: TITLE, order: ASC }, search: "${title}" }
-      first: 100000
+      first: 999999
     ) {
       edges {
         node {
@@ -60,7 +60,7 @@ export const GET_POST_IMAGES = (title) => gql`
 
 export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
   {
-    posts(first: 100000, where: {search: "${searchTerm}"}) {
+    posts(first: 999999, where: {search: "${searchTerm}"}) {
       nodes {
         featuredImage {
           node {
