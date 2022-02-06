@@ -5,22 +5,34 @@ import { useCustomContext } from "../context/Context";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
-  grid-row: 1;
-
   .container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: "artists logo categories";
     font-size: 1.5rem;
-    justify-content: space-between;
+  }
+
+  .artists-container {
+    grid-area: artists;
+    justify-content: flex-start;
   }
 
   .logo {
+    grid-area: logo;
     cursor: pointer;
     font-size: 3.5rem;
     letter-spacing: 0.1rem;
+    text-align: center;
+  }
+
+  .categories-container {
+    grid-area: categories;
+    justify-content: flex-end;
   }
 
   .artists-container,
   .categories-container {
+    display: flex;
     &:hover {
       color: var(--orange);
       transition: var(--hoverTransition);
@@ -38,11 +50,14 @@ const StyledHeader = styled.div`
   @media screen and (max-width: 768px) {
     .container {
       font-size: 1.25rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "logo logo"
+        "artists categories";
     }
 
     .logo {
       font-size: 2.5rem;
-      text-align: center;
     }
   }
 `;
