@@ -29,9 +29,9 @@ export default function Mosaic() {
     setViewingArtwork,
     setCurrentArtwork,
   } = useCustomContext();
-
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+
   // Toggle mosaic shuffle
   const shuffleMosaic = useRef(true);
 
@@ -48,7 +48,7 @@ export default function Mosaic() {
 
   // Single event listener for event delegation
   // If a specific artwork is clicked, then show the artwork's detail
-  const handleMouseClick = (e) => {
+  const handleMosaicClick = (e) => {
     let currentImage = e.target;
     if (currentImage.localName === "img") {
       setCurrentArtwork({
@@ -66,12 +66,11 @@ export default function Mosaic() {
       // Skip search results that are not "Posts"
       let data = thumbnailData.posts.nodes.reduce((arr, post, idx) => {
         if (post.featuredImage?.node.sourceUrl) {
-          let object = {
+          arr.push({
             post,
             thumbnail: post.featuredImage.node.sourceUrl,
             medium: mediumData.posts.nodes[idx].featuredImage.node.sourceUrl,
-          };
-          arr.push(object);
+          });
         }
         return arr;
       }, []);
@@ -83,7 +82,7 @@ export default function Mosaic() {
         const swap = (array, idx1, idx2) => {
           [array[idx1], array[idx2]] = [array[idx2], array[idx1]];
         };
-        // Fisher-Yates algorithm
+        // Fisher-Yates algorithm for randomly shuffling the mosaic
         for (let i = data.length - 1; i >= 0; i--) {
           let randomIdx = getRandomInt(i);
           swap(data, i, randomIdx);
@@ -94,13 +93,13 @@ export default function Mosaic() {
     }
   }, [thumbnailLoading, mediumLoading]);
 
-  if (loading || !thumbnailData) return <Spinner />;
+  if (loading || !data) return <Spinner />;
 
   if (viewingArtwork) return <Artwork />;
 
   return (
     <>
-      <div className="mosaic" onClick={handleMouseClick}>
+      <div className="mosaic" onClick={handleMosaicClick}>
         {data.map((dataSet) => {
           return (
             <StyledMosaicContainer key={dataSet.post.id}>

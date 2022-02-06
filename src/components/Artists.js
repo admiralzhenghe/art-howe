@@ -5,10 +5,10 @@ import Spinner from "./Spinner";
 import { useCustomContext } from "../context/Context";
 // GraphQL
 import { useQuery } from "@apollo/client";
-// Query
-import { GET_ALL_ARTISTS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
+// Query
+import { GET_ALL_ARTISTS } from "../GraphQL/queries";
 
 const StyledContainer = styled.div`
   font-size: 1.25rem;

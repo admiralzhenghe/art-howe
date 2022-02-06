@@ -34,7 +34,6 @@ const StyledContainer = styled.div`
 
 export default function Categories() {
   const { loading, data } = useQuery(GET_ALL_TAGS);
-
   const {
     setSearchTerm,
     setViewingArtwork,
@@ -53,6 +52,7 @@ export default function Categories() {
   };
 
   if (loading) return <Spinner />;
+
   return (
     <StyledContainer onClick={handleTagClick}>
       {data.tags.nodes.map((tag, idx) => (

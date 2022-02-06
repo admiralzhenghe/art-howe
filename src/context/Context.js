@@ -13,6 +13,7 @@ export function ContextProvider({ children }) {
     id: null,
     postTitle: null,
   });
+  const [viewingArtists, setViewingArtists] = useState(false);
   const [viewingCategories, setViewingCategories] = useState(false);
   const [viewingSearches, setViewingSearches] = useState(false);
 
@@ -23,6 +24,8 @@ export function ContextProvider({ children }) {
     setViewingArtwork,
     currentArtwork,
     setCurrentArtwork,
+    viewingArtists,
+    setViewingArtists,
     viewingCategories,
     setViewingCategories,
     viewingSearches,
