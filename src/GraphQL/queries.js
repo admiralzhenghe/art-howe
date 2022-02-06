@@ -85,3 +85,17 @@ export const GET_ALL_TAGS = gql`
     }
   }
 `;
+
+// Artist queries
+
+export const GET_ALL_ARTISTS = gql`
+  {
+    posts(first: 999999) {
+      nodes {
+        details {
+          artist
+        }
+      }
+    }
+  }
+`;
