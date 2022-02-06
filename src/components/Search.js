@@ -23,12 +23,8 @@ const StyledSearch = styled.input`
   }
 
   @media screen and (max-width: 768px) {
-    height: 2.5rem;
     font-size: 1.25rem;
-  }
-
-  @media screen and (max-width: 480px) {
-    font-size: 1rem;
+    height: 2.5rem;
   }
 `;
 
@@ -37,6 +33,7 @@ export default function Search() {
     searchTerm,
     setSearchTerm,
     setViewingArtwork,
+    setViewingArtists,
     setViewingCategories,
     setViewingSearches,
   } = useCustomContext();
@@ -45,7 +42,9 @@ export default function Search() {
   const handleSearch = (e) => {
     // Whenever a search term is inputted, turn off the viewing artwork state
     setViewingArtwork(false);
-    // And turn of the viewing categories state
+    // Turn off the viewing artists state
+    setViewingArtists(false);
+    // And turn off the viewing categories state
     setViewingCategories(false);
 
     let search = e.target.value;
