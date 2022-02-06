@@ -76,7 +76,7 @@ export default function Mosaic() {
         return arr;
       }, []);
 
-      if (shuffleMosaic) {
+      if (shuffleMosaic.current) {
         const getRandomInt = (max) => {
           return Math.floor(Math.random() * max);
         };
