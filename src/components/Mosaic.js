@@ -93,7 +93,7 @@ export default function Mosaic() {
     }
   }, [thumbnailLoading, mediumLoading]);
 
-  if (loading || !data) return <Spinner />;
+  if (loading || !thumbnailData || !mediumData) return <Spinner />;
 
   if (viewingArtwork) return <Artwork />;
 
