@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./style/Mosaic.css";
 // Apollo
 import { useQuery } from "@apollo/client";
 // Components
@@ -9,8 +8,9 @@ import Spinner from "./Spinner";
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_THUMBNAILS, GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
-// Styled
+// Style
 import styled from "styled-components";
+import "./style/Mosaic.css";
 
 const StyledMosaicContainer = styled.div`
   cursor: pointer;
@@ -82,7 +82,7 @@ export default function Mosaic() {
         const swap = (array, idx1, idx2) => {
           [array[idx1], array[idx2]] = [array[idx2], array[idx1]];
         };
-        // Fisher-Yates algorithm for randomly shuffling the mosaic
+        // Fisher-Yates algorithm to generate a randomly ordered mosaic
         for (let i = data.length - 1; i >= 0; i--) {
           let randomIdx = getRandomInt(i);
           swap(data, i, randomIdx);
