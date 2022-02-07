@@ -49,7 +49,7 @@ export default function ArtworkDetail({ data }) {
     if (categories.includes(e.target.id)) {
       let detailText = e.target.innerText;
       // If the detailText is a tag, remove any lingering semicolons
-      detailText = detailText.replace(/[;]/g, "");
+      detailText = detailText.replace("; ", "");
       setViewingArtwork(false);
       setViewingSearches(true);
       setSearchTerm(detailText);
