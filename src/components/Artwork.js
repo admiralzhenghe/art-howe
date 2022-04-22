@@ -53,8 +53,12 @@ export default function Artwork() {
     useCustomContext();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  let { id, postTitle } = currentArtwork;
 
-  const { id, postTitle } = currentArtwork;
+  // Error prevention because WordPress auto converts hyphens to en dashes
+  postTitle = postTitle.replace('–', '-');
+  // Error prevention because WordPress auto converts charCode 39 to charCode 8217
+  postTitle = postTitle.replace("’", "'");
 
   // Query API
   const { loading: postLoading, data: postData } = useQuery(
