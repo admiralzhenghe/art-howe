@@ -2,7 +2,7 @@
   animation: animateMosaic var(--pageLoadAnimation);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 5px;
+  gap: 10px;
 }
 
 @keyframes animateMosaic {
@@ -44,10 +44,4 @@
   transform: scale(3.4) translateX(1.1rem) translateY(1.1rem);
   transition: transform 0.45s;
   z-index: 100;
-}
-
-@media screen and (max-width: 768px) {
-  .mosaic {
-    text-align: center;
-  }
 }
