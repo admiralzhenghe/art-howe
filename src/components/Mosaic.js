@@ -17,7 +17,6 @@ const StyledMosaicContainer = styled.div`
   display: inline-block;
   height: 50px;
   width: 50px;
-  margin: 5px;
   position: relative;
 `;
 

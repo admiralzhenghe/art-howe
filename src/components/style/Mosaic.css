@@ -1,5 +1,8 @@
 .mosaic {
   animation: animateMosaic var(--pageLoadAnimation);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 5px;
 }
 
 @keyframes animateMosaic {
