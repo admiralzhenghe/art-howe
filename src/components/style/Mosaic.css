@@ -1,9 +1,9 @@
 .mosaic {
   animation: animateMosaic var(--pageLoadAnimation);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-template-columns: repeat(auto-fit, 50px);
   gap: 10px;
-  justify-items: center;
+  justify-content: center;
 }
 
 @keyframes animateMosaic {
