@@ -10,7 +10,6 @@ import { useCustomContext } from "../context/Context.js";
 import { GET_THUMBNAILS, GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
 // Style
 import styled from "styled-components";
-import "./style/Mosaic.css";
 
 const StyledMosaicContainer = styled.div`
   cursor: pointer;
@@ -33,6 +32,8 @@ export default function Mosaic() {
 
   // Toggle mosaic shuffle
   const shuffleMosaic = useRef(true);
+  // Mosaic element
+  const mosaicEl = useRef(null);
 
   const { loading: thumbnailLoading, data: thumbnailData } = useQuery(
     !viewingSearches
@@ -93,28 +94,49 @@ export default function Mosaic() {
   }, [thumbnailLoading, mediumLoading]);
 
   if (loading || !thumbnailData || !mediumData) return <Spinner />;
-
   if (viewingArtwork) return <Artwork />;
+
+  function handleMosaicHover(e) {
+    const mosaicWidth = mosaicEl.current.offsetWidth;
+    const scrollHeight = document.body.scrollHeight;
+
+    if (e.target.dataset?.image === "regular") {
+      e.target.classList = "";
+      if (e.clientX <= mosaicWidth / 2) {
+        e.target.classList.add("hover-right");
+      } else {
+        e.target.classList.add("hover-left");
+      }
+      if (e.pageY + 150 >= scrollHeight) {
+        e.target.classList.add("up");
+      }
+    }
+  }
 
   return (
     <>
-      <div className="mosaic" onClick={handleMosaicClick}>
+      <div
+        className="mosaic"
+        onClick={handleMosaicClick}
+        onMouseOver={handleMosaicHover}
+        ref={mosaicEl}
+      >
         {data.map((dataSet) => {
           return (
             <StyledMosaicContainer key={dataSet.post.id}>
               <img
                 src={dataSet.thumbnail}
-                alt={dataSet.post.title}
-                className="pixelated"
                 id={dataSet.post.id}
+                data-image="pixelated"
                 data-title={dataSet.post.title}
+                alt={dataSet.post.title}
               />
               <img
                 src={dataSet.medium}
-                alt={dataSet.post.title}
-                className="regular"
                 id={dataSet.post.id}
+                data-image="regular"
                 data-title={dataSet.post.title}
+                alt={dataSet.post.title}
               />
             </StyledMosaicContainer>
           );
