@@ -74,3 +74,64 @@ code {
     max-width: 100%;
   }
 }
+
+.mosaic {
+  animation: animateMosaic var(--pageLoadAnimation);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 50px);
+  gap: 10px;
+  justify-content: center;
+}
+
+@keyframes animateMosaic {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+[data-image="pixelated"] {
+  image-rendering: pixelated;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+[data-image="pixelated"]:hover {
+  display: none;
+}
+
+[data-image="regular"] {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: hidden;
+  z-index: 1;
+}
+
+.hover-left:hover,
+.hover-right:hover {
+  transition: transform 0.45s;
+  z-index: 100;
+}
+.hover-right:hover {
+  transform: scale(3.4) translateX(1.1rem) translateY(1.1rem);
+}
+.hover-right.up:hover {
+  transform: scale(3.4) translateX(1.1rem) translateY(-1.1rem);
+}
+.hover-left:hover {
+  transform: scale(3.4) translateX(-1.1rem) translateY(1.1rem);
+}
+.hover-left.up:hover {
+  transform: scale(3.4) translateX(-1.1rem) translateY(-1.1rem);
+}
