@@ -74,9 +74,9 @@ export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
   }
 `;
 
-// Tag queries
+// Category queries
 
-export const GET_ALL_TAGS = gql`
+export const GET_ALL_CATEGORIES = gql`
   {
     tags(first: 9999999) {
       nodes {
