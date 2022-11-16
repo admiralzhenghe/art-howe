@@ -17,12 +17,13 @@ const StyledHeader = styled.div`
     justify-content: flex-start;
   }
 
-  .logo {
-    grid-area: logo;
-    cursor: pointer;
+  .logo-container {
+    justify-content: center;
     font-size: 3.5rem;
+    grid-area: logo;
     letter-spacing: 0.1rem;
     text-align: center;
+    width: 100%;
   }
 
   .categories-container {
@@ -31,12 +32,13 @@ const StyledHeader = styled.div`
   }
 
   .artists-container,
+  .logo-container,
   .categories-container {
     display: flex;
-    &:hover {
-      color: var(--orange);
-      transition: var(--hoverTransition);
-    }
+  }
+
+  .logo:hover {
+    cursor: pointer;
   }
 
   .artists,
@@ -45,6 +47,10 @@ const StyledHeader = styled.div`
     display: flex;
     align-items: center;
     height: 100%;
+    &:hover {
+      color: var(--orange);
+      transition: var(--hoverTransition);
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -108,15 +114,17 @@ export default function Header() {
             Artists
           </div>
         </div>
-        <div className="logo">
-          <span style={{ color: "var(--blue)" }}>A</span>
-          <span style={{ color: "var(--orange)" }}>R</span>
-          <span style={{ color: "var(--blue)" }}>T</span>
-          <span> </span>
-          <span style={{ color: "var(--orange)" }}>H</span>
-          <span style={{ color: "var(--blue)" }}>O</span>
-          <span style={{ color: "var(--orange)" }}>W</span>
-          <span style={{ color: "var(--blue)" }}>E</span>
+        <div className="logo-container">
+          <div className="logo">
+            <span style={{ color: "var(--blue)" }}>A</span>
+            <span style={{ color: "var(--orange)" }}>R</span>
+            <span style={{ color: "var(--blue)" }}>T</span>
+            <span> </span>
+            <span style={{ color: "var(--orange)" }}>H</span>
+            <span style={{ color: "var(--blue)" }}>O</span>
+            <span style={{ color: "var(--orange)" }}>W</span>
+            <span style={{ color: "var(--blue)" }}>E</span>
+          </div>
         </div>
         <div className="categories-container">
           <div className="categories" onClick={handleCategoriesToggle}>
