@@ -70,9 +70,9 @@ export default function Artwork() {
   useEffect(() => {
     if (!postLoading && !imagesLoading) {
       // Filter out images with similar titles but do not belong to the same post
-      const filtered = imagesData.mediaItems.edges.filter((image) => {
-        if (image.node.parentId === id) return image.node.sourceUrl;
-      });
+      const filtered = imagesData.mediaItems.edges.filter(
+        (image) => image.node.parentId === id
+      );
       // Extract image URLs only
       const extracted = filtered.map((image) => ({
         original: image.node.sourceUrl,
