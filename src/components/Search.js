@@ -1,4 +1,6 @@
 import React from "react";
+// Components
+import SearchHandler from "./SearchHandler";
 // Context
 import { useCustomContext } from "../context/Context";
 // Styled
@@ -29,41 +31,30 @@ const StyledSearch = styled.input`
 `;
 
 export default function Search() {
-  const {
-    searchTerm,
-    setSearchTerm,
-    setViewingArtwork,
-    setViewingArtists,
-    setViewingCategories,
-    setViewingSearches,
-  } = useCustomContext();
+  const { search, view } = useCustomContext();
 
   // Live search
   const handleSearch = (e) => {
-    // Whenever a search term is inputted, turn off the viewing artwork state
-    setViewingArtwork(false);
-    // Turn off the viewing artists state
-    setViewingArtists(false);
-    // And turn off the viewing categories state
-    setViewingCategories(false);
-
-    let search = e.target.value;
+    let currentQuery = e.target.value;
     // If there are words in the search bar
-    if (search.length) {
-      setViewingSearches(true);
-      setSearchTerm(search);
+    if (currentQuery.length) {
+      search.setQuery(currentQuery);
     } else {
-      // If the search bar is empty, return back to the main landing page
-      setViewingSearches(false);
-      setSearchTerm("");
+      // If the search bar is empty, return to the full mosaic
+      search.setQuery("");
+      search.setLoading(false);
     }
+    view.setViewing(view.type.MOSAIC);
   };
 
   return (
-    <StyledSearch
-      placeholder="Search"
-      onInput={handleSearch}
-      value={searchTerm}
-    ></StyledSearch>
+    <>
+      {search.query.length !== 0 && <SearchHandler />}
+      <StyledSearch
+        placeholder="Search"
+        onInput={handleSearch}
+        value={search.query}
+      ></StyledSearch>
+    </>
   );
 }
