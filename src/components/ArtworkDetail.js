@@ -41,8 +41,7 @@ const StyledArtworkDetail = styled.div`
 `;
 
 export default function ArtworkDetail({ data }) {
-  const { setSearchTerm, setViewingSearches, setViewingArtwork } =
-    useCustomContext();
+  const { search, view } = useCustomContext();
 
   let categories = ["artist", "year", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
@@ -50,9 +49,8 @@ export default function ArtworkDetail({ data }) {
       let detailText = e.target.innerText;
       // If the detailText is a tag, remove any lingering semicolons
       detailText = detailText.replace("; ", "");
-      setViewingArtwork(false);
-      setViewingSearches(true);
-      setSearchTerm(detailText);
+      view.setViewing(view.type.MOSAIC);
+      search.setQuery(detailText);
     }
   };
 
