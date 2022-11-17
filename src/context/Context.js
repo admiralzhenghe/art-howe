@@ -1,35 +1,58 @@
 import React, { useContext, useState } from "react";
 
 export const Context = React.createContext();
-
 export function useCustomContext() {
   return useContext(Context);
 }
 
-export function ContextProvider({ children }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [viewingArtwork, setViewingArtwork] = useState(false);
-  const [currentArtwork, setCurrentArtwork] = useState({
+export function ContextProvider({
+  children,
+  loading,
+  mosaicData,
+  artistsData,
+  categoriesData,
+}) {
+  const [artwork, setArtwork] = useState({
     id: null,
     postTitle: null,
   });
-  const [viewingArtists, setViewingArtists] = useState(false);
-  const [viewingCategories, setViewingCategories] = useState(false);
-  const [viewingSearches, setViewingSearches] = useState(false);
+
+  const VIEWTYPE = {
+    ARTISTS: "ARTISTS",
+    ARTWORK: "ARTWORK",
+    CATEGORIES: "CATEGORIES",
+    MOSAIC: "MOSAIC",
+  };
+  const [viewing, setViewing] = useState(VIEWTYPE.MOSAIC);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchData, setSearchData] = useState([]);
 
   const value = {
-    searchTerm,
-    setSearchTerm,
-    viewingArtwork,
-    setViewingArtwork,
-    currentArtwork,
-    setCurrentArtwork,
-    viewingArtists,
-    setViewingArtists,
-    viewingCategories,
-    setViewingCategories,
-    viewingSearches,
-    setViewingSearches,
+    current: {
+      artwork,
+      setArtwork,
+    },
+    data: {
+      loading,
+      mosaic: mosaicData,
+      artists: artistsData,
+      categories: categoriesData,
+    },
+    search: {
+      query: searchQuery,
+      setQuery: setSearchQuery,
+      loading: searchLoading,
+      setLoading: setSearchLoading,
+      data: searchData,
+      setData: setSearchData,
+    },
+    view: {
+      type: VIEWTYPE,
+      viewing,
+      setViewing,
+    },
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
