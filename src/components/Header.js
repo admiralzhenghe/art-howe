@@ -69,53 +69,30 @@ const StyledHeader = styled.div`
 `;
 
 export default function Header() {
-  const {
-    viewingArtists,
-    viewingCategories,
-    setSearchTerm,
-    setViewingArtwork,
-    setViewingArtists,
-    setViewingCategories,
-    setViewingSearches,
-  } = useCustomContext();
+  const { search, view } = useCustomContext();
 
-  const handleArtistsToggle = (e) => {
-    // Stop event bubbling to prevent triggering the Logo click
-    e.stopPropagation();
-    setViewingCategories(false);
-    setViewingArtists(!viewingArtists);
-  };
-
-  const handleCategoriesToggle = (e) => {
-    e.stopPropagation();
-    setViewingArtists(false);
-    setViewingCategories(!viewingCategories);
-  };
-
-  // Clicking on the logo resets to the landing page
-  const handleHomeToggle = (e) => {
-    // Clear the viewing artwork state
-    setViewingArtwork(false);
-    // Clear the viewing artists state
-    setViewingArtists(false);
-    // Clear the viewing categories state
-    setViewingCategories(false);
-    // Clear the searching state
-    setViewingSearches(false);
-    // Clear the search bar
-    setSearchTerm("");
+  const handleHeaderClick = (e) => {
+    // Clicking on the logo resets to the landing page
+    if (e.target.hasAttribute(["data-logo"]) || e.target.tagName === "SPAN") {
+      view.setViewing(view.type.MOSAIC);
+    } else if (e.target.hasAttribute(["data-artists"])) {
+      view.setViewing(view.type.ARTISTS);
+    } else if (e.target.hasAttribute(["data-categories"])) {
+      view.setViewing(view.type.CATEGORIES);
+    }
+    search.setQuery("");
   };
 
   return (
     <StyledHeader>
-      <div className="container" onClick={handleHomeToggle}>
-        <div className="artists-container">
-          <div className="artists" onClick={handleArtistsToggle}>
+      <div className="container" onClick={handleHeaderClick}>
+        <div className="artists-container" data-artists>
+          <div className="artists" data-artists>
             Artists
           </div>
         </div>
         <div className="logo-container">
-          <div className="logo">
+          <div className="logo" data-logo>
             <span style={{ color: "var(--blue)" }}>A</span>
             <span style={{ color: "var(--orange)" }}>R</span>
             <span style={{ color: "var(--blue)" }}>T</span>
@@ -126,8 +103,8 @@ export default function Header() {
             <span style={{ color: "var(--blue)" }}>E</span>
           </div>
         </div>
-        <div className="categories-container">
-          <div className="categories" onClick={handleCategoriesToggle}>
+        <div className="categories-container" data-categories>
+          <div className="categories" data-categories>
             Categories
           </div>
         </div>
