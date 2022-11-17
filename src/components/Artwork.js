@@ -49,18 +49,17 @@ const StyledBackButton = styled.div`
 `;
 
 export default function Artwork() {
-  const { currentArtwork, viewingSearches, setViewingArtwork } =
-    useCustomContext();
-  const [images, setImages] = useState([]);
+  const { current, search, view } = useCustomContext();
   const [loading, setLoading] = useState(true);
-  let { id, postTitle } = currentArtwork;
+  const [images, setImages] = useState([]);
+  let { id, postTitle } = current.artwork;
 
   // Error prevention because WordPress auto converts hyphens to en dashes
-  postTitle = postTitle.replace('–', '-');
+  postTitle = postTitle.replace("–", "-");
   // Error prevention because WordPress auto converts charCode 39 to charCode 8217
   postTitle = postTitle.replace("’", "'");
 
-  // Query API
+  // GraphQL Query
   const { loading: postLoading, data: postData } = useQuery(
     GET_POST_DETAIL(id)
   );
@@ -69,7 +68,7 @@ export default function Artwork() {
   );
 
   useEffect(() => {
-    if (!imagesLoading) {
+    if (!postLoading && !imagesLoading) {
       // Filter out images with similar titles but do not belong to the same post
       let filtered = imagesData.mediaItems.edges.filter((image) => {
         if (image.node.parentId === id) return image.node.sourceUrl;
@@ -79,23 +78,18 @@ export default function Artwork() {
         original: image.node.sourceUrl,
       }));
       setImages(extracted);
-    }
-  }, [imagesLoading]);
-
-  // Once the images array is created set loading to false
-  useEffect(() => {
-    if (!postLoading && images.length) {
       setLoading(false);
     }
-  }, [postLoading, images]);
+  }, [postLoading, imagesLoading]);
 
   if (loading) return <Spinner />;
+  const viewingSearch = search.query.length > 0;
 
   return (
     <>
-      {/* If viewing a searched artwork, show an option to return to the search results */}
-      {viewingSearches && (
-        <StyledBackButton onClick={() => setViewingArtwork(false)}>
+      {/* If viewing a searched artwork, show option to return to search results */}
+      {viewingSearch && (
+        <StyledBackButton onClick={() => view.setViewing(view.type.MOSAIC)}>
           BACK TO SEARCH RESULTS
         </StyledBackButton>
       )}

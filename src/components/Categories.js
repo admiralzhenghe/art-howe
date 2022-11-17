@@ -3,10 +3,6 @@ import React from "react";
 import Spinner from "./Spinner";
 // Context
 import { useCustomContext } from "../context/Context";
-// GraphQL
-import { useQuery } from "@apollo/client";
-// Query
-import { GET_ALL_TAGS } from "../GraphQL/queries";
 // Styled
 import styled from "styled-components";
 
@@ -33,34 +29,27 @@ const StyledContainer = styled.div`
 `;
 
 export default function Categories() {
-  const { loading, data } = useQuery(GET_ALL_TAGS);
-  const {
-    setSearchTerm,
-    setViewingArtwork,
-    setViewingCategories,
-    setViewingSearches,
-  } = useCustomContext();
+  const { data, search, view } = useCustomContext();
 
   const handleTagClick = (e) => {
     if (e.target.className === "tag") {
       let tagName = e.target.innerText;
-      setViewingArtwork(false);
-      setViewingCategories(false);
-      setViewingSearches(true);
-      setSearchTerm(tagName);
+      view.setViewing(view.type.MOSAIC);
+      search.setQuery(tagName);
     }
   };
 
-  if (loading) return <Spinner />;
+  if (!data.categories) return <Spinner />;
 
   return (
     <StyledContainer onClick={handleTagClick}>
-      {data.tags.nodes.map((tag, idx) => (
+      {data.categories.tags.nodes.map((tag, idx) => (
         <div key={idx}>
           {idx === 0 && <b>{tag.name[0]}</b>}
-          {idx > 0 && tag.name[0] !== data.tags.nodes[idx - 1].name[0] && (
-            <b>{tag.name[0]}</b>
-          )}
+          {idx > 0 &&
+            tag.name[0] !== data.categories.tags.nodes[idx - 1].name[0] && (
+              <b>{tag.name[0]}</b>
+            )}
           <div className="tag">{tag.name}</div>
         </div>
       ))}
