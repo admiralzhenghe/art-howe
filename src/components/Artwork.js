@@ -58,17 +58,20 @@ export default function Artwork() {
   postTitle = postTitle.replace("–", "-");
   // Error prevention because WordPress auto converts charCode 39 to charCode 8217
   postTitle = postTitle.replace("’", "'");
+  // Error prevention because quotation marks return query error
+  postTitle = postTitle.replace(/[“”]+/g, "");
 
   // GraphQL Query
   const { loading: postLoading, data: postData } = useQuery(
     GET_POST_DETAIL(id)
   );
   const { loading: imagesLoading, data: imagesData } = useQuery(
-    GET_POST_IMAGES(postTitle)
+    GET_POST_IMAGES(`${postTitle}`)
   );
 
   useEffect(() => {
     if (!postLoading && !imagesLoading) {
+      console.log(postTitle, current, postData, imagesData);
       // Filter out images with similar titles but do not belong to the same post
       const filtered = imagesData.mediaItems.edges.filter(
         (image) => image.node.parentId === id
