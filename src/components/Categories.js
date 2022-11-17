@@ -1,6 +1,4 @@
 import React from "react";
-// Component
-import Spinner from "./Spinner";
 // Context
 import { useCustomContext } from "../context/Context";
 // Styled
@@ -34,12 +32,10 @@ export default function Categories() {
   const handleTagClick = (e) => {
     if (e.target.className === "tag") {
       let tagName = e.target.innerText;
-      view.setViewing(view.type.MOSAIC);
       search.setQuery(tagName);
+      view.setViewing(view.type.MOSAIC);
     }
   };
-
-  if (!data.categories) return <Spinner />;
 
   return (
     <StyledContainer onClick={handleTagClick}>

@@ -1,6 +1,4 @@
 import React from "react";
-// Component
-import Spinner from "./Spinner";
 // Context
 import { useCustomContext } from "../context/Context";
 // Styled
@@ -38,8 +36,6 @@ export default function Artists() {
       search.setQuery(artistName);
     }
   };
-
-  if (!data.artists) return <Spinner />;
 
   return (
     <StyledContainer onClick={handleArtistClick}>
