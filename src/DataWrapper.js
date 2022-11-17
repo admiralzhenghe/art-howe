@@ -12,7 +12,7 @@ export default function DataWrapper() {
 
   return (
     <ContextProvider
-      initialLoading={mosaicLoading || filtersLoading ? true : false}
+      loading={mosaicLoading || filtersLoading ? true : false}
       mosaicData={mosaicData}
       artistsData={artistsData}
       categoriesData={categoriesData}
