@@ -63,7 +63,10 @@ export default function ArtworkDetail({ data }) {
   });
 
   return (
-    <StyledArtworkDetail onClick={handleDetailClick}>
+    <StyledArtworkDetail
+      onClick={handleDetailClick}
+      className="custom-scrollbar"
+    >
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
       <br />
       <div id="title">{data.post.title}</div>

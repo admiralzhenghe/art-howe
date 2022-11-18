@@ -75,6 +75,15 @@ code {
   }
 }
 
+/* Custom scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
 .mosaic {
   animation: animateMosaic var(--pageLoadAnimation);
   display: grid;
