@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 // Apollo
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 // Component
-import DataWrapper from "./DataWrapper";
+import Data from "./Data";
 // ImageGallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import "./index.css";
@@ -16,7 +16,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <DataWrapper />
+      <Data />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
