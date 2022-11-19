@@ -12,10 +12,7 @@ export function ContextProvider({
   artistsData,
   categoriesData,
 }) {
-  const [artwork, setArtwork] = useState({
-    id: null,
-    postTitle: null,
-  });
+  const [artwork, setArtwork] = useState();
 
   const VIEWTYPE = {
     ARTISTS: "ARTISTS",
