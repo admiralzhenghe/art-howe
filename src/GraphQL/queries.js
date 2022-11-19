@@ -9,16 +9,16 @@ export const GET_THUMBNAILS = (size) => gql`
             sourceUrl(size: ${size})
           }
         }
-        id
+        postId
         title
       }
     }
   }
 `;
 
-export const GET_POST_DETAIL = (id) => gql`
+export const GET_POST = (id) => gql`
   {
-  post(id: "${id}") {
+  post(id: "${id}", idType: DATABASE_ID) {
     title
     tags {
       edges {
@@ -37,27 +37,17 @@ export const GET_POST_DETAIL = (id) => gql`
       year
     }
   }
-}`;
-
-export const GET_POST_IMAGES = (title) => gql`
-  {
-    mediaItems(
-      where: { orderby: { field: TITLE, order: ASC }, search: "${title}" }
-      first: 999999
-    ) {
-      edges {
-        node {
-          parentId
-          sourceUrl(size: _2048X2048)
-          title
-        }
+  mediaItems(where: {parent: "${id}", orderby: {field: TITLE, order: ASC}}) {
+    edges {
+      node {
+        id
+        mediaItemUrl
       }
     }
   }
-`;
+}`;
 
 // Search queries
-
 export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
   {
     posts(first: 999999, where: {search: "${searchTerm}"}) {
@@ -67,27 +57,14 @@ export const GET_SEARCH_THUMBNAILS = (size, searchTerm) => gql`
             sourceUrl(size: ${size})
           }
         }
-        id
+        postId
         title
       }
     }
   }
 `;
 
-// Category queries
-
-export const GET_ALL_CATEGORIES = gql`
-  {
-    tags(first: 9999999) {
-      nodes {
-        name
-      }
-    }
-  }
-`;
-
 // Artist queries
-
 export const GET_ALL_ARTISTS = gql`
   {
     posts(first: 999999) {
@@ -95,6 +72,17 @@ export const GET_ALL_ARTISTS = gql`
         details {
           artist
         }
+      }
+    }
+  }
+`;
+
+// Category queries
+export const GET_ALL_CATEGORIES = gql`
+  {
+    tags(first: 9999999) {
+      nodes {
+        name
       }
     }
   }
