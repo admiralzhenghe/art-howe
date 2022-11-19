@@ -25,8 +25,7 @@ export default function Mosaic() {
   const handleMosaicClick = (e) => {
     if (e.target.tagName === "IMG") {
       current.setArtwork({
-        id: e.target.id,
-        postTitle: e.target.dataset.title,
+        postId: e.target.dataset.id,
       });
       view.setViewing(view.type.ARTWORK);
     }
@@ -62,19 +61,17 @@ export default function Mosaic() {
       >
         {(viewingSearch ? search.data : data.mosaic).map((dataSet) => {
           return (
-            <StyledMosaicContainer key={dataSet.post.id}>
+            <StyledMosaicContainer key={dataSet.post.postId}>
               <img
                 src={dataSet.thumbnail}
-                id={dataSet.post.id}
+                data-id={dataSet.post.postId}
                 data-image="pixelated"
-                data-title={dataSet.post.title}
                 alt={dataSet.post.title}
               />
               <img
                 src={dataSet.medium}
-                id={dataSet.post.id}
+                data-id={dataSet.post.postId}
                 data-image="regular"
-                data-title={dataSet.post.title}
                 alt={dataSet.post.title}
               />
             </StyledMosaicContainer>

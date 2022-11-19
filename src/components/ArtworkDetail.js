@@ -14,7 +14,7 @@ const StyledArtworkDetail = styled.div`
   overflow-x: hidden;
   word-break: break-word;
 
-  #title {
+  .title {
     font-style: italic;
   }
 
@@ -24,7 +24,6 @@ const StyledArtworkDetail = styled.div`
   #venue,
   #tag {
     cursor: pointer;
-
     &:hover {
       color: var(--orange);
       transition: var(--hoverTransition);
@@ -43,24 +42,12 @@ const StyledArtworkDetail = styled.div`
 export default function ArtworkDetail({ data }) {
   const { search, view } = useCustomContext();
 
-  let categories = ["artist", "year", "exhibition", "venue", "tag"];
   const handleDetailClick = (e) => {
-    if (categories.includes(e.target.id)) {
-      let detailText = e.target.innerText;
-      // If the detailText is a tag, remove any lingering semicolons
-      detailText = detailText.replace("; ", "");
-      view.setViewing(view.type.MOSAIC);
-      search.setQuery(detailText);
-    }
+    if (!e.target.id) return;
+    let filter = e.target.innerText.replace("; ", "");
+    view.setViewing(view.type.MOSAIC);
+    search.setQuery(filter);
   };
-
-  // Format the tags to include a semicolon after each tag excluding the last tag
-  let formattedTags = data.post.tags.edges.map((post, idx) => {
-    if (idx === data.post.tags.edges.length - 1) return post.node.name;
-    else {
-      return post.node.name + "; ";
-    }
-  });
 
   return (
     <StyledArtworkDetail
@@ -69,7 +56,7 @@ export default function ArtworkDetail({ data }) {
     >
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
       <br />
-      <div id="title">{data.post.title}</div>
+      <div className="title">{data.post.title}</div>
       <div id="year">{data.post.details.year}</div>
       <br />
       <b>Exhibition</b>
@@ -83,11 +70,12 @@ export default function ArtworkDetail({ data }) {
       <br />
       <b>Tags</b>
       <div>
-        {formattedTags.map((tag, idx) => (
-          <span id="tag" key={idx}>
-            {tag}
-          </span>
-        ))}
+        {data.post.tags.edges.map((tag, idx) => {
+          if (idx === data.post.tags.edges.length - 1) {
+            return <span id="tag" key={idx}>{`${tag.node.name}`}</span>;
+          }
+          return <span id="tag" key={idx}>{`${tag.node.name}; `}</span>;
+        })}
       </div>
       <br />
       <b>Hi-res Link</b>

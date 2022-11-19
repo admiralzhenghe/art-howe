@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 // Context
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
-import { GET_POST_DETAIL, GET_POST_IMAGES } from "../GraphQL/queries";
+import { GET_POST } from "../GraphQL/queries";
 // ImageGallery
 import ImageGallery from "react-image-gallery";
 // Styled
@@ -50,42 +50,23 @@ const StyledBackButton = styled.div`
 
 export default function Artwork() {
   const { current, search, view } = useCustomContext();
-  const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState([]);
-  let { id, postTitle } = current.artwork;
-
-  // Error prevention because WordPress auto converts hyphens to en dashes
-  postTitle = postTitle.replace("–", "-");
-  // Error prevention because WordPress auto converts charCode 39 to charCode 8217
-  postTitle = postTitle.replace("’", "'");
-  // Error prevention because quotation marks return query error
-  postTitle = postTitle.replace(/[“”]+/g, "");
+  const [images, setImages] = useState();
+  let { postId } = current.artwork;
 
   // GraphQL Query
-  const { loading: postLoading, data: postData } = useQuery(
-    GET_POST_DETAIL(id)
-  );
-  const { loading: imagesLoading, data: imagesData } = useQuery(
-    GET_POST_IMAGES(`${postTitle}`)
-  );
+  const { loading, data } = useQuery(GET_POST(postId));
 
   useEffect(() => {
-    if (!postLoading && !imagesLoading) {
-      console.log(postTitle, current, postData, imagesData);
-      // Filter out images with similar titles but do not belong to the same post
-      const filtered = imagesData.mediaItems.edges.filter(
-        (image) => image.node.parentId === id
+    if (!loading) {
+      setImages(
+        data.mediaItems.edges.map((item) => ({
+          original: item.node.mediaItemUrl,
+        }))
       );
-      // Extract image URLs only
-      const extracted = filtered.map((image) => ({
-        original: image.node.sourceUrl,
-      }));
-      setImages(extracted);
-      setLoading(false);
     }
-  }, [postLoading, imagesLoading]);
+  }, [loading]);
 
-  if (loading) return <Spinner />;
+  if (loading || !images) return <Spinner />;
   const viewingSearch = search.query.length > 0;
 
   return (
@@ -104,7 +85,7 @@ export default function Artwork() {
             showThumbnails={false}
           />
         </StyledImageGalleryContainer>
-        <ArtworkDetail data={postData} />
+        <ArtworkDetail data={data} />
       </StyledArtworkContainer>
     </>
   );
