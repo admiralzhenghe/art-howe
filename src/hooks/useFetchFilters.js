@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // Apollo
 import { useQuery } from "@apollo/client";
 // GraphQL
-import { GET_ALL_ARTISTS, GET_ALL_CATEGORIES } from "../graphql/queries";
+import { GET_ALL_ARTISTS, GET_ALL_CATEGORIES } from "../GraphQL/queries";
 
 export function useFetchFilters() {
   const [data, setData] = useState([]);

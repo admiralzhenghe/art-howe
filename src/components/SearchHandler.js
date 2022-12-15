@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 // Context
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
-import { GET_SEARCH_THUMBNAILS } from "../graphql/queries";
+import { GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
 // Utils
 import generateMosaicData from "../utils/generateMosaicData";
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 // Apollo
 import { useQuery } from "@apollo/client";
 // GraphQL
-import { GET_THUMBNAILS } from "../graphql/queries";
+import { GET_THUMBNAILS } from "../GraphQL/queries";
 // Utils
 import generateMosaicData from "../utils/generateMosaicData";
 
