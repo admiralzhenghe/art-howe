@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 // Context
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
-import { GET_POST } from "../GraphQL/queries";
+import { GET_POST } from "../graphql/queries";
 // ImageGallery
 import ImageGallery from "react-image-gallery";
 // Styled
