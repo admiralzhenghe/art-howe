@@ -65,6 +65,7 @@ export default function Artwork() {
         }))
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   if (loading || !images) return <Spinner />;
