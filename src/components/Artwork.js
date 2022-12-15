@@ -8,7 +8,7 @@ import Spinner from "./Spinner";
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_POST } from "../graphql/queries";
-// ImageGallery
+// React-Image_Gallery
 import ImageGallery from "react-image-gallery";
 // Styled
 import styled from "styled-components";
@@ -41,6 +41,7 @@ const StyledImageGalleryContainer = styled.div`
 
 const StyledBackButton = styled.div`
   cursor: pointer;
+  display: inline-block;
   margin-bottom: 1rem;
 
   &:hover {
@@ -74,7 +75,7 @@ export default function Artwork() {
       {/* If viewing a searched artwork, show option to return to search results */}
       {viewingSearch && (
         <StyledBackButton onClick={() => view.setViewing(view.type.MOSAIC)}>
-          BACK TO SEARCH RESULTS
+          <i class="fa-solid fa-arrow-left-long"></i>
         </StyledBackButton>
       )}
       <StyledArtworkContainer>
