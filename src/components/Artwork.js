@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useState, useEffect } from "react";
 // Apollo
 import { useQuery } from "@apollo/client";
 // Components
 import ArtworkDetail from "./ArtworkDetail";
 import Skeleton from "./Skeleton";
-// Context
-import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_POST } from "../GraphQL/queries";
-// React-Image_Gallery
+// Image Gallery
 import ImageGallery from "react-image-gallery";
-// Styled
-import styled from "styled-components";
+// Router
+import { useParams } from "react-router-dom";
 
-const StyledArtworkContainer = styled.div`
+const StyledArtwork = styled.div`
   display: flex;
   animation: animateArtwork var(--pageLoadAnimation);
 
@@ -39,39 +38,24 @@ const StyledArtworkContainer = styled.div`
   }
 `;
 
-const StyledBackButton = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  margin-bottom: 1rem;
-
-  &:hover {
-    color: var(--orange);
-  }
-`;
-
 export default function Artwork() {
-  const { current, search, view } = useCustomContext();
+  const { id } = useParams();
   const [images, setImages] = useState(null);
   const [imagesLoading, setImagesLoading] = useState(true);
 
   // GraphQL Query
-  const { loading, data } = useQuery(GET_POST(current.artwork.postId));
+  const { loading, data } = useQuery(GET_POST(id));
 
   useEffect(() => {
-    if (!loading) {
-      setImages(
-        data.mediaItems.edges.map((item) => ({
-          original: item.node.mediaItemUrl,
-        }))
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+    if (!loading && imagesLoading) {
+      const imagesArray = data.mediaItems.edges.map((item) => ({
+        original: item.node.mediaItemUrl,
+      }));
+      setImages(imagesArray);
 
-  useEffect(() => {
-    if (images && imagesLoading) {
-      let toLoad = images.length;
-      images.forEach((image) => {
+      // Preload the images
+      let toLoad = imagesArray.length;
+      imagesArray.forEach((image) => {
         const img = new Image();
         img.src = image.original;
         img.onload = () => {
@@ -80,20 +64,13 @@ export default function Artwork() {
         };
       });
     }
-  }, [images, imagesLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, imagesLoading]);
 
-  if (loading) return <div></div>;
-  const viewingSearch = search.query.length > 0;
-
+  if (loading) return <></>;
   return (
     <>
-      {/* If viewing a searched artwork, show option to return to search results */}
-      {viewingSearch && (
-        <StyledBackButton onClick={() => view.setViewing(view.type.MOSAIC)}>
-          <i class="fa-solid fa-arrow-left-long"></i>
-        </StyledBackButton>
-      )}
-      <StyledArtworkContainer>
+      <StyledArtwork>
         <div className="gallery-container">
           {imagesLoading ? (
             <Skeleton />
@@ -106,7 +83,7 @@ export default function Artwork() {
           )}
         </div>
         <ArtworkDetail data={data} />
-      </StyledArtworkContainer>
+      </StyledArtwork>
     </>
   );
 }
