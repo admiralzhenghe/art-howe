@@ -47,9 +47,12 @@ code {
 }
 
 /* Change the image gallery's navigation icons color */
-.image-gallery-icon {
+.image-gallery-icon.image-gallery-left-nav,
+.image-gallery-icon.image-gallery-right-nav,
+.image-gallery-icon.image-gallery-fullscreen-button {
   color: black;
   filter: drop-shadow(0 0 0 white);
+  outline: none;
 }
 
 .image-gallery-left-nav .image-gallery-svg,
@@ -58,12 +61,13 @@ code {
   width: 45px;
 }
 
-.image-gallery-icon:hover {
+.image-gallery:fullscreen .image-gallery-icon.image-gallery-left-nav,
+.image-gallery:fullscreen .image-gallery-icon.image-gallery-right-nav,
+.image-gallery:fullscreen .image-gallery-icon.image-gallery-fullscreen-button,
+.image-gallery-icon.image-gallery-left-nav:hover,
+.image-gallery-icon.image-gallery-right-nav:hover,
+.image-gallery-icon.image-gallery-fullscreen-button:hover {
   color: var(--orange);
-}
-
-.image-gallery-icon:focus {
-  outline: none;
 }
 
 /* Reset the max-width on mobile screens */
@@ -84,11 +88,11 @@ code {
 }
 
 .mosaic {
-  animation: animateMosaic var(--pageLoadAnimation);
   display: grid;
   grid-template-columns: repeat(auto-fit, 50px);
   gap: 10px;
   justify-content: center;
+  animation: animateMosaic var(--pageLoadAnimation);
 }
 
 @keyframes animateMosaic {
@@ -116,13 +120,13 @@ code {
 }
 
 [data-image="regular"] {
+  display: hidden;
   position: absolute;
   top: 0px;
   left: 0px;
   height: 100%;
   width: 100%;
   object-fit: cover;
-  display: hidden;
   z-index: 1;
 }
 
