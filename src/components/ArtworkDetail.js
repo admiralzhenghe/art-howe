@@ -1,8 +1,5 @@
-import React from "react";
-// Context
-import { useCustomContext } from "../context/Context";
-// Styled
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledArtworkDetail = styled.div`
   display: flex;
@@ -14,15 +11,15 @@ const StyledArtworkDetail = styled.div`
   overflow-x: hidden;
   word-break: break-word;
 
-  #title {
+  .title {
     font-style: italic;
   }
 
-  #artist,
-  #year,
-  #exhibition,
-  #venue,
-  #tag {
+  .artist,
+  .year,
+  .exhibition,
+  .venue,
+  .tag {
     cursor: pointer;
     &:hover {
       color: var(--orange);
@@ -40,30 +37,38 @@ const StyledArtworkDetail = styled.div`
 `;
 
 export default function ArtworkDetail({ data }) {
-  const { search, view } = useCustomContext();
-
-  const handleDetailClick = (e) => {
-    if (!e.target.id) return;
-    let filter = e.target.innerText.replace("; ", "");
-    view.setViewing(view.type.MOSAIC);
-    search.setQuery(filter);
-  };
-
   return (
-    <StyledArtworkDetail
-      onClick={handleDetailClick}
-      className="custom-scrollbar"
-    >
-      <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
+    <StyledArtworkDetail className="custom-scrollbar">
+      <Link
+        to={"/search/" + encodeURIComponent(data.post.details.artist)}
+        className="artist"
+      >
+        {data.post.details.artist?.toUpperCase()}
+      </Link>
       <br />
-      <div id="title">{data.post.title}</div>
-      <div id="year">{data.post.details.year}</div>
+      <div className="title">{data.post.title}</div>
+      <Link
+        to={"/search/" + encodeURIComponent(data.post.details.year)}
+        className="year"
+      >
+        {data.post.details.year}
+      </Link>
       <br />
       <b>Exhibition</b>
-      <div id="exhibition">{data.post.details.exhibition}</div>
+      <Link
+        to={"/search/" + encodeURIComponent(data.post.details.exhibition)}
+        className="exhibition"
+      >
+        {data.post.details.exhibition}
+      </Link>
       <br />
       <b>Venue</b>
-      <div id="venue">{data.post.details.venue}</div>
+      <Link
+        to={"/search/" + encodeURIComponent(data.post.details.venue)}
+        className="venue"
+      >
+        {data.post.details.venue}
+      </Link>
       <br />
       <b>Date Seen</b>
       <div>{data.post.details.dateSeen?.replace(/[/]/g, ".")}</div>
@@ -72,14 +77,28 @@ export default function ArtworkDetail({ data }) {
       <div>
         {data.post.tags.edges.map((tag, idx) => {
           if (idx === data.post.tags.edges.length - 1) {
-            return <span id="tag" key={idx}>{`${tag.node.name}`}</span>;
+            return (
+              <Link
+                to={"/search/" + encodeURIComponent(tag.node.name)}
+                className="tag"
+                key={idx}
+              >{`${tag.node.name}`}</Link>
+            );
           }
-          return <span id="tag" key={idx}>{`${tag.node.name}; `}</span>;
+          return (
+            <Link
+              to={"/search/" + encodeURIComponent(tag.node.name)}
+              className="tag"
+              key={idx}
+            >{`${tag.node.name}; `}</Link>
+          );
         })}
       </div>
       <br />
       <b>Hi-res Link</b>
-      <a href={data.post.details.link}>{data.post.details.link}</a>
+      <a className="link" href={data.post.details.link}>
+        {data.post.details.link}
+      </a>
     </StyledArtworkDetail>
   );
 }

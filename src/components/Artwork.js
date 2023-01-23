@@ -41,17 +41,15 @@ const StyledArtwork = styled.div`
 export default function Artwork() {
   const { id } = useParams();
   const [images, setImages] = useState(null);
-  const [imagesLoading, setImagesLoading] = useState(true);
 
   // GraphQL Query
   const { loading, data } = useQuery(GET_POST(id));
 
   useEffect(() => {
-    if (!loading && imagesLoading) {
+    if (!loading && !images) {
       const imagesArray = data.mediaItems.edges.map((item) => ({
         original: item.node.mediaItemUrl,
       }));
-      setImages(imagesArray);
 
       // Preload the images
       let toLoad = imagesArray.length;
@@ -60,19 +58,19 @@ export default function Artwork() {
         img.src = image.original;
         img.onload = () => {
           toLoad--;
-          if (!toLoad) setImagesLoading(false);
+          if (!toLoad) setImages(imagesArray);
         };
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, imagesLoading]);
+  }, [loading, images]);
 
   if (loading) return <></>;
   return (
     <>
       <StyledArtwork>
         <div className="gallery-container">
-          {imagesLoading ? (
+          {!images || !images.length ? (
             <Skeleton />
           ) : (
             <ImageGallery
