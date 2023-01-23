@@ -80,7 +80,7 @@ export default function Artwork() {
         };
       });
     }
-  }, [images]);
+  }, [images, imagesLoading]);
 
   if (loading) return <div></div>;
   const viewingSearch = search.query.length > 0;
