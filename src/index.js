@@ -9,7 +9,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import "./index.css";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_WORDPRESS_API_URL,
+  uri: process.env.REACT_APP_WP_API,
   cache: new InMemoryCache(),
 });
 
