@@ -1,28 +1,47 @@
-// React
-import React from "react";
 // Components
 import Artists from "./components/Artists";
 import Artwork from "./components/Artwork";
 import Categories from "./components/Categories";
-import Header from "./components/Header";
 import Mosaic from "./components/Mosaic";
+import Nav from "./components/Nav";
 import Search from "./components/Search";
-// Context
-import { useCustomContext } from "./context/Context";
+// Custom Hooks
+import { useFetchFilters } from "./hooks/useFetchFilters";
+import { useFetchMosaic } from "./hooks/useFetchMosaic";
+// Router
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const { view } = useCustomContext();
+  const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
+  const [mosaicLoading, mosaicData] = useFetchMosaic();
 
-  return (
-    <>
-      <Header />
-      <Search />
-      {view.viewing === view.type.ARTISTS && <Artists />}
-      {view.viewing === view.type.ARTWORK && <Artwork />}
-      {view.viewing === view.type.CATEGORIES && <Categories />}
-      {view.viewing === view.type.MOSAIC && <Mosaic />}
-    </>
-  );
+  if (!filtersLoading && !mosaicLoading) {
+    return (
+      <>
+        <Nav />
+        <Search />
+        <Routes>
+          <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
+          <Route
+            path="/artists"
+            element={<Artists artistsData={artistsData} />}
+          />
+          <Route
+            path="/categories"
+            element={<Categories categoriesData={categoriesData} />}
+          />
+          <Route path="/artwork/:id" element={<Artwork />} />
+        </Routes>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Nav />
+        <Search />
+      </>
+    );
+  }
 }
 
 export default App;
