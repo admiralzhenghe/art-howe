@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 // Components
 import ArtworkDetail from "./ArtworkDetail";
-import Spinner from "./Spinner";
+import Skeleton from "./Skeleton";
 // Context
 import { useCustomContext } from "../context/Context.js";
 // GraphQL
@@ -26,17 +26,17 @@ const StyledArtworkContainer = styled.div`
     }
   }
 
+  .gallery-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 100%;
+  }
+
   @media screen and (max-width: 768px) {
     display: block;
     text-align: center;
   }
-`;
-
-const StyledImageGalleryContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1 1 100%;
 `;
 
 const StyledBackButton = styled.div`
@@ -51,11 +51,11 @@ const StyledBackButton = styled.div`
 
 export default function Artwork() {
   const { current, search, view } = useCustomContext();
-  const [images, setImages] = useState();
-  let { postId } = current.artwork;
+  const [images, setImages] = useState(null);
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   // GraphQL Query
-  const { loading, data } = useQuery(GET_POST(postId));
+  const { loading, data } = useQuery(GET_POST(current.artwork.postId));
 
   useEffect(() => {
     if (!loading) {
@@ -68,7 +68,21 @@ export default function Artwork() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
-  if (loading || !images) return <Spinner />;
+  useEffect(() => {
+    if (images && imagesLoading) {
+      let toLoad = images.length;
+      images.forEach((image) => {
+        const img = new Image();
+        img.src = image.original;
+        img.onload = () => {
+          toLoad--;
+          if (!toLoad) setImagesLoading(false);
+        };
+      });
+    }
+  }, [images]);
+
+  if (loading) return <div></div>;
   const viewingSearch = search.query.length > 0;
 
   return (
@@ -80,13 +94,17 @@ export default function Artwork() {
         </StyledBackButton>
       )}
       <StyledArtworkContainer>
-        <StyledImageGalleryContainer>
-          <ImageGallery
-            items={images}
-            showPlayButton={false}
-            showThumbnails={false}
-          />
-        </StyledImageGalleryContainer>
+        <div className="gallery-container">
+          {imagesLoading ? (
+            <Skeleton />
+          ) : (
+            <ImageGallery
+              items={images}
+              showPlayButton={false}
+              showThumbnails={false}
+            />
+          )}
+        </div>
         <ArtworkDetail data={data} />
       </StyledArtworkContainer>
     </>
