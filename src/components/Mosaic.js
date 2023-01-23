@@ -1,12 +1,9 @@
-import React, { useRef } from "react";
-// Component
-import Spinner from "./Spinner";
-// Context
-import { useCustomContext } from "../context/Context.js";
-// Style
 import styled from "styled-components";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const StyledMosaicContainer = styled.div`
+  background-color: gainsboro;
   cursor: pointer;
   display: inline-block;
   height: 50px;
@@ -14,28 +11,11 @@ const StyledMosaicContainer = styled.div`
   position: relative;
 `;
 
-export default function Mosaic() {
-  const { current, data, search, view } = useCustomContext();
-
-  // Mosaic element
-  const mosaicEl = useRef(null);
-
-  // Single event listener for event delegation
-  // If a specific artwork is clicked, then show the artwork's detail
-  const handleMosaicClick = (e) => {
-    if (e.target.tagName === "IMG") {
-      current.setArtwork({
-        postId: e.target.dataset.id,
-      });
-      view.setViewing(view.type.ARTWORK);
-    }
-  };
-
-  if (data.loading || search.loading) return <Spinner />;
-  const viewingSearch = search.query.length;
+export default function Mosaic({ mosaicData: data }) {
+  const mosaicElement = useRef(null);
 
   function handleMosaicHover(e) {
-    const mosaicWidth = mosaicEl.current.offsetWidth;
+    const mosaicWidth = mosaicElement.current.offsetWidth;
     const windowHeight = window.innerHeight;
     const scrollHeight = document.body.scrollHeight;
 
@@ -56,11 +36,10 @@ export default function Mosaic() {
     <>
       <div
         className="mosaic"
-        onClick={handleMosaicClick}
         onMouseOver={handleMosaicHover}
-        ref={mosaicEl}
+        ref={mosaicElement}
       >
-        {(viewingSearch ? search.data : data.mosaic).map((dataSet) => {
+        {data.map((dataSet) => {
           return (
             <StyledMosaicContainer key={dataSet.post.postId}>
               <img
@@ -69,12 +48,14 @@ export default function Mosaic() {
                 data-image="pixelated"
                 alt={dataSet.post.title}
               />
-              <img
-                src={dataSet.medium}
-                data-id={dataSet.post.postId}
-                data-image="regular"
-                alt={dataSet.post.title}
-              />
+              <Link to={`/artwork/${dataSet.post.postId}`}>
+                <img
+                  src={dataSet.medium}
+                  data-id={dataSet.post.postId}
+                  data-image="regular"
+                  alt={dataSet.post.title}
+                />
+              </Link>
             </StyledMosaicContainer>
           );
         })}
