@@ -14,7 +14,7 @@ const StyledArtworkDetail = styled.div`
   overflow-x: hidden;
   word-break: break-word;
 
-  .title {
+  #title {
     font-style: italic;
   }
 
@@ -56,7 +56,7 @@ export default function ArtworkDetail({ data }) {
     >
       <div id="artist">{data.post.details.artist?.toUpperCase()}</div>
       <br />
-      <div className="title">{data.post.title}</div>
+      <div id="title">{data.post.title}</div>
       <div id="year">{data.post.details.year}</div>
       <br />
       <b>Exhibition</b>
