@@ -13,8 +13,8 @@ import { useFetchMosaic } from "./hooks/useFetchMosaic";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
   const [mosaicLoading, mosaicData] = useFetchMosaic();
+  const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
 
   if (!filtersLoading && !mosaicLoading) {
     return (
