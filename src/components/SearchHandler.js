@@ -1,36 +1,29 @@
-import { useEffect } from "react";
+import Mosaic from "./Mosaic";
 // Apollo
 import { useQuery } from "@apollo/client";
-// Context
-import { useCustomContext } from "../context/Context.js";
 // GraphQL
 import { GET_SEARCH_THUMBNAILS } from "../GraphQL/queries";
+// Router
+import { useParams } from "react-router-dom";
 // Utils
 import generateMosaicData from "../utils/generateMosaicData";
 
 export default function SearchHandler() {
-  const { search } = useCustomContext();
+  const { query } = useParams();
 
   const { loading: searchThumbnailLoading, data: searchThumbnailData } =
-    useQuery(GET_SEARCH_THUMBNAILS("THUMBNAIL", search.query));
+    useQuery(GET_SEARCH_THUMBNAILS("THUMBNAIL", query));
   const { loading: searchMediumLoading, data: searchMediumData } = useQuery(
-    GET_SEARCH_THUMBNAILS("MEDIUM", search.query)
+    GET_SEARCH_THUMBNAILS("MEDIUM", query)
   );
 
-  useEffect(() => {
-    search.setLoading(true);
-  }, [search.query]);
-
-  useEffect(() => {
-    if (!searchThumbnailLoading && !searchMediumLoading) {
-      const filteredData = generateMosaicData(
-        searchThumbnailData,
-        searchMediumData
-      );
-      search.setData(filteredData);
-      search.setLoading(false);
-    }
-  }, [searchThumbnailLoading, searchMediumLoading]);
-
-  return null;
+  if (!searchThumbnailLoading && !searchMediumLoading) {
+    const mosaicData = generateMosaicData(
+      searchThumbnailData,
+      searchMediumData
+    );
+    if (!mosaicData.length) {
+      return <div className="not-found">No results found</div>;
+    } else return <Mosaic mosaicData={mosaicData} />;
+  } else return <></>;
 }

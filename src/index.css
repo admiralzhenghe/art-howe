@@ -152,3 +152,11 @@ code {
 .hover-left.up:hover {
   transform: scale(3.4) translateX(-1.1rem) translateY(-1.1rem);
 }
+
+.not-found {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50%;
+}
