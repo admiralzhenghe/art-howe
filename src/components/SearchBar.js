@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-const StyledSearch = styled.input`
+const StyledSearchBar = styled.input`
   border: 1px solid black;
   font-size: 1.5rem;
   grid-row: 2;
@@ -25,9 +26,20 @@ const StyledSearch = styled.input`
 `;
 
 export default function SearchBar() {
+  const navigate = useNavigate();
+
+  function searchHandler(e) {
+    if (e.key === "Enter") {
+      const query = e.target.value;
+      e.target.value = "";
+      navigate("/search/" + encodeURIComponent(query));
+    }
+  }
+
   return (
-    <>
-      <StyledSearch placeholder="Search"></StyledSearch>
-    </>
+    <StyledSearchBar
+      placeholder="Search"
+      onKeyUp={searchHandler}
+    ></StyledSearchBar>
   );
 }
