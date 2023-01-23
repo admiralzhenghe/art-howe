@@ -36,6 +36,7 @@ export default function Mosaic() {
 
   function handleMosaicHover(e) {
     const mosaicWidth = mosaicEl.current.offsetWidth;
+    const windowHeight = window.innerHeight;
     const scrollHeight = document.body.scrollHeight;
 
     if (e.target.dataset?.image === "regular") {
@@ -45,7 +46,7 @@ export default function Mosaic() {
       } else {
         e.target.classList.add("hover-left");
       }
-      if (e.pageY + 150 >= scrollHeight) {
+      if (e.pageY + 150 >= Math.max(windowHeight, scrollHeight)) {
         e.target.classList.add("up");
       }
     }
