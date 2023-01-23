@@ -1,8 +1,5 @@
-import React from "react";
-// Context
-import { useCustomContext } from "../context/Context";
-// Styled
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
   font-size: 1.25rem;
@@ -18,6 +15,7 @@ const StyledContainer = styled.div`
   }
 
   .tag {
+    display: block;
     cursor: pointer;
     &:hover {
       color: var(--orange);
@@ -26,27 +24,19 @@ const StyledContainer = styled.div`
   }
 `;
 
-export default function Categories() {
-  const { data, search, view } = useCustomContext();
-
-  const handleTagClick = (e) => {
-    if (e.target.className === "tag") {
-      let tagName = e.target.innerText;
-      search.setQuery(tagName);
-      view.setViewing(view.type.MOSAIC);
-    }
-  };
-
+export default function Categories({ categoriesData }) {
   return (
-    <StyledContainer onClick={handleTagClick}>
-      {data.categories.tags.nodes.map((tag, idx) => (
+    <StyledContainer>
+      {categoriesData.tags.nodes.map((tag, idx) => (
         <div key={idx}>
           {idx === 0 && <b>{tag.name[0]}</b>}
           {idx > 0 &&
-            tag.name[0] !== data.categories.tags.nodes[idx - 1].name[0] && (
+            tag.name[0] !== categoriesData.tags.nodes[idx - 1].name[0] && (
               <b>{tag.name[0]}</b>
             )}
-          <div className="tag">{tag.name}</div>
+          <Link to={"/search/" + encodeURIComponent(tag.name)} className="tag">
+            {tag.name}
+          </Link>
         </div>
       ))}
     </StyledContainer>

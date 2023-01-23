@@ -1,8 +1,5 @@
-import React from "react";
-// Context
-import { useCustomContext } from "../context/Context";
-// Styled
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
   font-size: 1.25rem;
@@ -18,6 +15,7 @@ const StyledContainer = styled.div`
   }
 
   .artist {
+    display: block;
     cursor: pointer;
     &:hover {
       color: var(--orange);
@@ -26,26 +24,18 @@ const StyledContainer = styled.div`
   }
 `;
 
-export default function Artists() {
-  const { data, search, view } = useCustomContext();
-
-  const handleArtistClick = (e) => {
-    if (e.target.className === "artist") {
-      let artistName = e.target.innerText;
-      view.setViewing(view.type.MOSAIC);
-      search.setQuery(artistName);
-    }
-  };
-
+export default function Artists({ artistsData }) {
   return (
-    <StyledContainer onClick={handleArtistClick}>
-      {data.artists.map((artist, idx) => (
+    <StyledContainer>
+      {artistsData.map((artist, idx) => (
         <div key={idx}>
           {idx === 0 && <b>{artist[0]}</b>}
-          {idx > 0 && artist[0] !== data.artists[idx - 1][0] && (
+          {idx > 0 && artist[0] !== artistsData[idx - 1][0] && (
             <b>{artist[0]}</b>
           )}
-          <div className="artist">{artist}</div>
+          <Link to={"/search/" + encodeURIComponent(artist)} className="artist">
+            {artist}
+          </Link>
         </div>
       ))}
     </StyledContainer>
