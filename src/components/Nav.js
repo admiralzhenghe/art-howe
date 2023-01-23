@@ -1,6 +1,5 @@
-import React from "react";
-// Context
-import { useCustomContext } from "../context/Context";
+// Router
+import { Link } from "react-router-dom";
 // Styled
 import styled from "styled-components";
 
@@ -10,6 +9,11 @@ const StyledHeader = styled.div`
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: "artists logo categories";
     font-size: 1.5rem;
+  }
+
+  .container a {
+    color: inherit;
+    text-decoration: none;
   }
 
   .artists-container {
@@ -69,29 +73,16 @@ const StyledHeader = styled.div`
 `;
 
 export default function Header() {
-  const { search, view } = useCustomContext();
-
-  const handleHeaderClick = (e) => {
-    // Clicking on the logo resets to the landing page
-    if (e.target.hasAttribute(["data-logo"]) || e.target.tagName === "SPAN") {
-      view.setViewing(view.type.MOSAIC);
-    } else if (e.target.hasAttribute(["data-artists"])) {
-      view.setViewing(view.type.ARTISTS);
-    } else if (e.target.hasAttribute(["data-categories"])) {
-      view.setViewing(view.type.CATEGORIES);
-    }
-    search.setQuery("");
-  };
-
   return (
     <StyledHeader>
-      <div className="container" onClick={handleHeaderClick}>
+      <div className="container">
         <div className="artists-container" data-artists>
-          <div className="artists" data-artists>
+          <Link to="/artists" className="artists" data-artists>
             Artists
-          </div>
+          </Link>
         </div>
-        <div className="logo-container">
+
+        <Link to="/" className="logo-container">
           <div className="logo" data-logo>
             <span style={{ color: "var(--blue)" }}>A</span>
             <span style={{ color: "var(--orange)" }}>R</span>
@@ -102,11 +93,12 @@ export default function Header() {
             <span style={{ color: "var(--orange)" }}>W</span>
             <span style={{ color: "var(--blue)" }}>E</span>
           </div>
-        </div>
+        </Link>
+
         <div className="categories-container" data-categories>
-          <div className="categories" data-categories>
+          <Link to="/categories" className="categories" data-categories>
             Categories
-          </div>
+          </Link>
         </div>
       </div>
     </StyledHeader>
