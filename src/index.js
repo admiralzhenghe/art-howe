@@ -1,12 +1,13 @@
+import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";
+import App from "./App";
 // Apollo
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-// Component
-import Data from "./Data";
-// ImageGallery
+// Image Gallery
 import "react-image-gallery/styles/css/image-gallery.css";
-import "./index.css";
+// Router
+import { BrowserRouter } from "react-router-dom";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_WP_API,
@@ -16,7 +17,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Data />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
