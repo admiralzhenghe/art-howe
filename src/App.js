@@ -4,7 +4,8 @@ import Artwork from "./components/Artwork";
 import Categories from "./components/Categories";
 import Mosaic from "./components/Mosaic";
 import Nav from "./components/Nav";
-import Search from "./components/Search";
+import SearchBar from "./components/SearchBar";
+import SearchHandler from "./components/SearchHandler";
 // Custom Hooks
 import { useFetchFilters } from "./hooks/useFetchFilters";
 import { useFetchMosaic } from "./hooks/useFetchMosaic";
@@ -19,7 +20,7 @@ function App() {
     return (
       <>
         <Nav />
-        <Search />
+        <SearchBar />
         <Routes>
           <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
           <Route
@@ -31,6 +32,7 @@ function App() {
             element={<Categories categoriesData={categoriesData} />}
           />
           <Route path="/artwork/:id" element={<Artwork />} />
+          <Route path="/search/:query" element={<SearchHandler />} />
         </Routes>
       </>
     );
@@ -38,7 +40,7 @@ function App() {
     return (
       <>
         <Nav />
-        <Search />
+        <SearchBar />
       </>
     );
   }
