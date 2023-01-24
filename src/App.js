@@ -16,7 +16,7 @@ function App() {
   const [mosaicLoading, mosaicData] = useFetchMosaic();
   const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
 
-  if ((mosaicLoading, filtersLoading)) {
+  if (true || (mosaicLoading && filtersLoading)) {
     return (
       <>
         <Nav />
