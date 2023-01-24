@@ -16,26 +16,34 @@ function App() {
   const [mosaicLoading, mosaicData] = useFetchMosaic();
   const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
 
+  if ((mosaicLoading, filtersLoading)) {
+    return (
+      <>
+        <Nav />
+        <SearchBar />
+        <Routes>
+          <Route path="/*" element={<></>} />
+          <Route path="/artwork/:id" element={<Artwork />} />
+          <Route path="/search/:query" element={<SearchHandler />} />
+        </Routes>
+      </>
+    );
+  }
+
   return (
     <>
       <Nav />
       <SearchBar />
       <Routes>
-        {!mosaicLoading && (
-          <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
-        )}
-        {!filtersLoading && (
-          <Route
-            path="/artists"
-            element={<Artists artistsData={artistsData} />}
-          />
-        )}
-        {!filtersLoading && (
-          <Route
-            path="/categories"
-            element={<Categories categoriesData={categoriesData} />}
-          />
-        )}
+        <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
+        <Route
+          path="/artists"
+          element={<Artists artistsData={artistsData} />}
+        />
+        <Route
+          path="/categories"
+          element={<Categories categoriesData={categoriesData} />}
+        />
         <Route path="/artwork/:id" element={<Artwork />} />
         <Route path="/search/:query" element={<SearchHandler />} />
       </Routes>
