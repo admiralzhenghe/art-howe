@@ -15,6 +15,7 @@ export default function Mosaic({ mosaicData: data }) {
   const mosaicElement = useRef(null);
 
   function handleMosaicHover(e) {
+    if (window.screen.width < 768) return;
     const mosaicWidth = mosaicElement.current.offsetWidth;
     const windowHeight = window.innerHeight;
     const scrollHeight = document.body.scrollHeight;
@@ -42,13 +43,13 @@ export default function Mosaic({ mosaicData: data }) {
         {data.map((dataSet) => {
           return (
             <StyledMosaicContainer key={dataSet.post.postId}>
-              <img
-                src={dataSet.thumbnail}
-                data-id={dataSet.post.postId}
-                data-image="pixelated"
-                alt={dataSet.post.title}
-              />
               <Link to={`/artwork/${dataSet.post.postId}`}>
+                <img
+                  src={dataSet.thumbnail}
+                  data-id={dataSet.post.postId}
+                  data-image="pixelated"
+                  alt={dataSet.post.title}
+                />
                 <img
                   src={dataSet.medium}
                   data-id={dataSet.post.postId}
