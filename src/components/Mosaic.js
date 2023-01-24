@@ -15,13 +15,14 @@ export default function Mosaic({ mosaicData: data }) {
   const mosaicElement = useRef(null);
 
   function handleClick(e) {
-    // One mobile screens, clicking on a pixelated mosaic will show its regular mosaic
+    // On mobile screens, clicking a pixelated image will show its regular image
     if (e.target.dataset?.image === "pixelated") {
       e.target.style.display = "none";
     }
   }
 
   function handleMosaicHover(e) {
+    // Turn off mosaic hover logic for mobile screens
     if (window.screen.width <= 768) return;
     const mosaicWidth = mosaicElement.current.offsetWidth;
     const windowHeight = window.innerHeight;
