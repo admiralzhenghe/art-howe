@@ -15,12 +15,14 @@ export default function Mosaic({ mosaicData: data }) {
   const mosaicElement = useRef(null);
 
   function handleClick(e) {
+    // One mobile screens, clicking on a pixelated mosaic will show its regular mosaic
     if (e.target.dataset?.image === "pixelated") {
-      e.target.style.display = "None";
+      e.target.style.display = "none";
     }
   }
 
   function handleMosaicHover(e) {
+    if (window.screen.width <= 768) return;
     const mosaicWidth = mosaicElement.current.offsetWidth;
     const windowHeight = window.innerHeight;
     const scrollHeight = document.body.scrollHeight;
@@ -39,7 +41,7 @@ export default function Mosaic({ mosaicData: data }) {
     <>
       <div
         className="mosaic"
-        onClick={handleClick}
+        onMouseDown={handleClick}
         onMouseOver={handleMosaicHover}
         ref={mosaicElement}
       >
