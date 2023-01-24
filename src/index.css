@@ -109,14 +109,18 @@ code {
   }
 }
 
-[data-image="pixelated"] {
-  image-rendering: pixelated;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+[data-image="pixelated"],
+[data-image="regular"] {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+[data-image="pixelated"] {
+  image-rendering: pixelated;
   z-index: 2;
 }
 
@@ -125,13 +129,6 @@ code {
 }
 
 [data-image="regular"] {
-  display: hidden;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
   z-index: 1;
 }
 
