@@ -124,8 +124,9 @@ code {
   z-index: 2;
 }
 
-[data-image="pixelated"]:hover {
-  visibility: hidden;
+[data-image="pixelated"]:hover,
+[data-image="pixelated"]:active {
+  display: none;
 }
 
 [data-image="regular"] {
