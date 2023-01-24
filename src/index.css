@@ -125,7 +125,7 @@ code {
 }
 
 [data-image="pixelated"]:hover {
-  display: none;
+  visibility: hidden;
 }
 
 [data-image="regular"] {
