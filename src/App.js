@@ -16,13 +16,21 @@ function App() {
   const [mosaicLoading, mosaicData] = useFetchMosaic();
   const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
 
-  if (mosaicLoading || filtersLoading) return <></>;
+  if (mosaicLoading || filtersLoading) {
+    return (
+      <>
+        <Nav />
+        <SearchBar />
+      </>
+    );
+  }
+
   return (
     <>
       <Nav />
       <SearchBar />
       <Routes>
-        <Route path="/*" element={<></>} />
+        <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
         <Route
           path="/artists"
           element={<Artists artistsData={artistsData} />}
