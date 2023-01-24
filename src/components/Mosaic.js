@@ -14,6 +14,12 @@ const StyledMosaicContainer = styled.div`
 export default function Mosaic({ mosaicData: data }) {
   const mosaicElement = useRef(null);
 
+  function handleClick(e) {
+    if (e.target.dataset?.image === "pixelated") {
+      e.target.style.display = "None";
+    }
+  }
+
   function handleMosaicHover(e) {
     const mosaicWidth = mosaicElement.current.offsetWidth;
     const windowHeight = window.innerHeight;
@@ -33,6 +39,7 @@ export default function Mosaic({ mosaicData: data }) {
     <>
       <div
         className="mosaic"
+        onClick={handleClick}
         onMouseOver={handleMosaicHover}
         ref={mosaicElement}
       >
