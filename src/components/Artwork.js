@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // Apollo
 import { useQuery } from "@apollo/client";
 // Components
@@ -45,25 +45,22 @@ export default function Artwork() {
   // GraphQL Query
   const { loading, data } = useQuery(GET_POST(id));
 
-  useEffect(() => {
-    if (!loading && !images) {
-      const imagesArray = data.mediaItems.edges.map((item) => ({
-        original: item.node.mediaItemUrl,
-      }));
+  if (!loading && !images) {
+    const imagesArray = data.mediaItems.edges.map((item) => ({
+      original: item.node.mediaItemUrl,
+    }));
 
-      // Preload the images
-      let toLoad = imagesArray.length;
-      imagesArray.forEach((image) => {
-        const img = new Image();
-        img.src = image.original;
-        img.onload = () => {
-          toLoad--;
-          if (!toLoad) setImages(imagesArray);
-        };
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, images]);
+    // Preload the images
+    let toLoad = imagesArray.length;
+    imagesArray.forEach((image) => {
+      const img = new Image();
+      img.src = image.original;
+      img.onload = () => {
+        toLoad--;
+        if (!toLoad) setImages(imagesArray);
+      };
+    });
+  }
 
   if (loading) return <></>;
   return (
