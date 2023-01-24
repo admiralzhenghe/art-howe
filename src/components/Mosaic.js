@@ -22,11 +22,8 @@ export default function Mosaic({ mosaicData: data }) {
 
     if (e.target.dataset?.image === "regular") {
       e.target.classList = "";
-      if (e.clientX <= mosaicWidth / 2) {
-        e.target.classList.add("hover-right");
-      } else {
-        e.target.classList.add("hover-left");
-      }
+      if (e.clientX <= mosaicWidth / 2) e.target.classList.add("hover-right");
+      else e.target.classList.add("hover-left");
       if (e.pageY + 150 >= Math.max(windowHeight, scrollHeight)) {
         e.target.classList.add("up");
       }
@@ -43,13 +40,13 @@ export default function Mosaic({ mosaicData: data }) {
         {data.map((dataSet) => {
           return (
             <StyledMosaicContainer key={dataSet.post.postId}>
+              <img
+                src={dataSet.thumbnail}
+                data-id={dataSet.post.postId}
+                data-image="pixelated"
+                alt={dataSet.post.title}
+              />
               <Link to={`/artwork/${dataSet.post.postId}`}>
-                <img
-                  src={dataSet.thumbnail}
-                  data-id={dataSet.post.postId}
-                  data-image="pixelated"
-                  alt={dataSet.post.title}
-                />
                 <img
                   src={dataSet.medium}
                   data-id={dataSet.post.postId}
