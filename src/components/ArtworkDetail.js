@@ -95,10 +95,14 @@ export default function ArtworkDetail({ data }) {
         })}
       </div>
       <br />
-      <b>Hi-res Link</b>
-      <a className="link" href={data.post.details.link}>
-        {data.post.details.link}
-      </a>
+      {data.post.details.link && (
+        <>
+          <b>Hi-res Link</b>
+          <a className="link" href={data.post.details.link}>
+            {data.post.details.link}
+          </a>
+        </>
+      )}
     </StyledArtworkDetail>
   );
 }
