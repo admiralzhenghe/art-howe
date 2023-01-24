@@ -140,14 +140,17 @@ code {
   transition: transform 0.45s;
   z-index: 100;
 }
+
 .hover-right:hover {
   transform: scale(3.4) translateX(1.1rem) translateY(1.1rem);
 }
-.hover-right.up:hover {
-  transform: scale(3.4) translateX(1.1rem) translateY(-1.1rem);
-}
 .hover-left:hover {
   transform: scale(3.4) translateX(-1.1rem) translateY(1.1rem);
+}
+
+/* Hover upwards */
+.hover-right.up:hover {
+  transform: scale(3.4) translateX(1.1rem) translateY(-1.1rem);
 }
 .hover-left.up:hover {
   transform: scale(3.4) translateX(-1.1rem) translateY(-1.1rem);
