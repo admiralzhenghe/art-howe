@@ -6,6 +6,7 @@ import Mosaic from "./components/Mosaic";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
 import SearchHandler from "./components/SearchHandler";
+import Spinner from "./components/Spinner";
 // Custom Hooks
 import { useFetchFilters } from "./hooks/useFetchFilters";
 import { useFetchMosaic } from "./hooks/useFetchMosaic";
@@ -16,11 +17,12 @@ function App() {
   const [mosaicLoading, mosaicData] = useFetchMosaic();
   const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
 
-  if (mosaicLoading || filtersLoading) {
+  if (true || mosaicLoading || filtersLoading) {
     return (
       <>
         <Nav />
         <SearchBar />
+        <Spinner />
       </>
     );
   }
