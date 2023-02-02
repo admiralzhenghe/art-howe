@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRef } from "react";
+// Router
 import { Link } from "react-router-dom";
 
 const StyledMosaicContainer = styled.div`
@@ -11,7 +12,7 @@ const StyledMosaicContainer = styled.div`
   position: relative;
 `;
 
-export default function Mosaic({ mosaicData: data }) {
+export default function Mosaic({ data }) {
   const mosaicElement = useRef(null);
 
   function handleClick(e) {
