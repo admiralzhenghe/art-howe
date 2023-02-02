@@ -2,8 +2,6 @@ import styled from "styled-components";
 import { useRef } from "react";
 // Router
 import { Link } from "react-router-dom";
-// Utils
-import throttleWrapper from "../utils/throttleWrapper";
 
 const StyledMosaicContainer = styled.div`
   background-color: gainsboro;
@@ -41,14 +39,12 @@ export default function Mosaic({ data }) {
     }
   }
 
-  const throttledHover = throttleWrapper(handleMosaicHover, 3);
-
   return (
     <>
       <div
         className="mosaic"
         onMouseDown={handleClick}
-        onMouseOver={throttledHover}
+        onMouseOver={handleMosaicHover}
         ref={mosaicElement}
       >
         {data.map((dataSet) => {
