@@ -1,49 +1,35 @@
+import { lazy, Suspense } from "react";
 // Components
-import Artists from "./components/Artists";
-import Artwork from "./components/Artwork";
-import Categories from "./components/Categories";
 import Mosaic from "./components/Mosaic";
 import Nav from "./components/Nav";
 import SearchBar from "./components/SearchBar";
-import SearchHandler from "./components/SearchHandler";
 import Spinner from "./components/Spinner";
 // Custom Hooks
-import { useFetchFilters } from "./hooks/useFetchFilters";
 import { useFetchMosaic } from "./hooks/useFetchMosaic";
 // Router
 import { Route, Routes } from "react-router-dom";
 
-function App() {
-  const [mosaicLoading, mosaicData] = useFetchMosaic();
-  const [filtersLoading, [artistsData, categoriesData]] = useFetchFilters();
+const Artwork = lazy(() => import("./components/Artwork"));
+const Artists = lazy(() => import("./components/Artists"));
+const Categories = lazy(() => import("./components/Categories"));
+const SearchHandler = lazy(() => import("./components/SearchHandler"));
 
-  if (mosaicLoading || filtersLoading) {
-    return (
-      <>
-        <Nav />
-        <SearchBar />
-        <Spinner />
-      </>
-    );
-  }
+function App() {
+  const [loading, data] = useFetchMosaic();
 
   return (
     <>
       <Nav />
       <SearchBar />
-      <Routes>
-        <Route path="/" element={<Mosaic mosaicData={mosaicData} />} />
-        <Route
-          path="/artists"
-          element={<Artists artistsData={artistsData} />}
-        />
-        <Route
-          path="/categories"
-          element={<Categories categoriesData={categoriesData} />}
-        />
-        <Route path="/artwork/:id" element={<Artwork />} />
-        <Route path="/search/:query" element={<SearchHandler />} />
-      </Routes>
+      <Suspense fallback={<Spinner />}>
+        <Routes>
+          <Route path="/" element={<Mosaic data={data} />} />
+          <Route path="/artists" element={<Artists />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/artwork/:id" element={<Artwork />} />
+          <Route path="/search/:query" element={<SearchHandler />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }
