@@ -1,4 +1,6 @@
+// Components
 import Mosaic from "./Mosaic";
+import Spinner from "./Spinner";
 // Apollo
 import { useQuery } from "@apollo/client";
 // GraphQL
@@ -17,13 +19,10 @@ export default function SearchHandler() {
     GET_SEARCH_THUMBNAILS("MEDIUM", query)
   );
 
+  if (searchThumbnailLoading || searchMediumLoading) return <Spinner />;
   if (!searchThumbnailLoading && !searchMediumLoading) {
-    const mosaicData = generateMosaicData(
-      searchThumbnailData,
-      searchMediumData
-    );
-    if (!mosaicData.length) {
-      return <div className="not-found">No results found</div>;
-    } else return <Mosaic mosaicData={mosaicData} />;
-  } else return <></>;
+    const data = generateMosaicData(searchThumbnailData, searchMediumData);
+    if (!data.length) return <div className="not-found">No results found</div>;
+    return <Mosaic data={data} />;
+  }
 }
