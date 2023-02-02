@@ -1,4 +1,8 @@
 import styled from "styled-components";
+// Apollo
+import { useQuery } from "@apollo/client";
+import { GET_ALL_ARTISTS } from "../GraphQL/queries";
+// Router
 import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
@@ -24,13 +28,24 @@ const StyledContainer = styled.div`
   }
 `;
 
-export default function Artists({ artistsData }) {
+export default function Artists() {
+  const { loading, data } = useQuery(GET_ALL_ARTISTS);
+  if (loading) return <></>;
+
+  // Remove duplicate artists using a set
+  const set = new Set();
+  data.posts.nodes.forEach((node) => {
+    set.add(node.details.artist);
+  });
+  // Sort the artists in alphabetical order
+  const cleanedData = [...set].sort();
+
   return (
     <StyledContainer>
-      {artistsData.map((artist, idx) => (
+      {cleanedData.map((artist, idx) => (
         <div key={idx}>
           {idx === 0 && <b>{artist[0]}</b>}
-          {idx > 0 && artist[0] !== artistsData[idx - 1][0] && (
+          {idx > 0 && artist[0] !== cleanedData[idx - 1][0] && (
             <b>{artist[0]}</b>
           )}
           <Link to={"/search/" + encodeURIComponent(artist)} className="artist">
