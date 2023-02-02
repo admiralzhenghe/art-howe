@@ -41,7 +41,7 @@ export default function Mosaic({ data }) {
     }
   }
 
-  const throttledHover = throttleWrapper(handleMosaicHover, 3);
+  const throttledHover = throttleWrapper(handleMosaicHover, 5);
 
   return (
     <>
