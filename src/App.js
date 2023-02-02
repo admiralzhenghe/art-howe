@@ -21,15 +21,19 @@ function App() {
     <>
       <Nav />
       <SearchBar />
-      <Suspense fallback={<Spinner />}>
-        <Routes>
-          <Route path="/" element={<Mosaic data={data} />} />
-          <Route path="/artists" element={<Artists />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/artwork/:id" element={<Artwork />} />
-          <Route path="/search/:query" element={<SearchHandler />} />
-        </Routes>
-      </Suspense>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Suspense fallback={<Spinner />}>
+          <Routes>
+            <Route path="/" element={<Mosaic data={data} />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/artwork/:id" element={<Artwork />} />
+            <Route path="/search/:query" element={<SearchHandler />} />
+          </Routes>
+        </Suspense>
+      )}
     </>
   );
 }
