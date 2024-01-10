@@ -48,7 +48,9 @@ code {
 }
 
 .image-gallery-image {
+  margin-inline: 2rem;
   max-width: 75%;
+  padding-inline: 2rem;
 }
 
 /* Change the image gallery's navigation icons color */
